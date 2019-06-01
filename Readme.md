@@ -1,7 +1,7 @@
 # Личный проект «Кексобукинг» [![Build status][travis-image]][travis-url]
 
 * Студент: [Алексей Ананьев](https://up.htmlacademy.ru/javascript/17/user/390075).
-* Наставник: `Алексей Пересмехин`.
+* Наставник: [Алексей Пересмехин](https://htmlacademy.ru/profile/alekseypn).
 
 ---
 
