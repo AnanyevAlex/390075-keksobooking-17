@@ -20,7 +20,7 @@ var getAvatarImgSrc = function (numberAuthor) {
   return AVATAR_IMG_SRC + '0' + numberAuthor + AVATAR_IMG_EXTENSION;
 };
 
-var activeMap = function () {
+var removeMapFaded = function () {
   var mapBlock = document.querySelector('.map');
   mapBlock.classList.remove('map--faded');
 };
@@ -33,35 +33,63 @@ var getTemplatePin = function () {
   return templatePin;
 };
 
-activeMap();
-var templatePin = getTemplatePin();
+var getLocationPinByAxis = function (axis) {
+  if (axis === 'x') {
+    return getRandomNumber(MAP_X_MAX_VALUE, MAP_X_MIN_VALUE) - (MAP_PIN_WIDTH / 2);
+  }
+  if (axis === 'y') {
+    return getRandomNumber(MAP_Y_MAX_VALUE, MAP_Y_MIN_VALUE) - MAP_PIN_HEIGHT;
+  }
+};
 
-var mapPin = document.querySelector('.map__pins');
-
-var author = [];
-for (var i = 0; i < AUTHOR_COUNT; i++) {
-
-  author.push({
-    avatar: getAvatarImgSrc(i + 1),
-    offer: OFFER_TYPE[getRandomNumber(3, 0)],
-    location: {
-      x: getRandomNumber(MAP_X_MAX_VALUE, MAP_X_MIN_VALUE) - (MAP_PIN_WIDTH / 2),
-      y: getRandomNumber(MAP_Y_MAX_VALUE, MAP_Y_MIN_VALUE) - MAP_PIN_HEIGHT,
-    }
-  });
+var getTypeOffer = function () {
+  return OFFER_TYPE[getRandomNumber(3, 0)];
 }
 
-var fragmentPin = document.createDocumentFragment();
-
-for (var authorNumber = 0; authorNumber < author.length; authorNumber++) {
-  var pinElement = templatePin.cloneNode(true);
-
-  pinElement.style.left = author[authorNumber].location.x + 'px';
-  pinElement.style.top = author[authorNumber].location.y + 'px';
-  var avatarImage = pinElement.querySelector('img');
-  avatarImage.src = author[authorNumber].avatar;
-  avatarImage.alt = author[authorNumber].offer;
-  fragmentPin.appendChild(pinElement);
+var getMapPin = function () {
+  return document.querySelector('.map__pins');
 }
 
-mapPin.appendChild(fragmentPin);
+var generateAds = function () {
+  var author = [];
+
+  for (var i = 0; i < AUTHOR_COUNT; i++) {
+    author.push({
+      avatar: getAvatarImgSrc(i + 1),
+      offer: getTypeOffer(),
+      location: {
+        x: getLocationPinByAxis('x'),
+        y: getLocationPinByAxis('y'),
+      }
+    });
+  };
+
+  return author;
+}
+
+var generatePins = function () {
+  var templatePin = getTemplatePin();
+  var author = generateAds();
+  var fragmentPin = document.createDocumentFragment();
+
+  for (var authorNumber = 0; authorNumber < author.length; authorNumber++ ) {
+    var pinElement = templatePin.cloneNode(true);
+
+    pinElement.style.left = author[authorNumber].location.x + 'px';
+    pinElement.style.top = author[authorNumber].location.y + 'px';
+    var avatarImage = pinElement.querySelector('img');
+    avatarImage.src = author[authorNumber].avatar;
+    avatarImage.alt = author[authorNumber].offer;
+    fragmentPin.appendChild(pinElement);
+  }
+
+  return fragmentPin;
+}
+
+var addMapPin = function () {
+  var mapPin = getMapPin();
+  mapPin.appendChild(generatePins());
+}
+
+removeMapFaded();
+addMapPin();
