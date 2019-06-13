@@ -33,22 +33,13 @@ var getTemplatePin = function () {
   return templatePin;
 };
 
-var getLocationPinByAxis = function (axis) {
-  if (axis === 'x') {
-    return getRandomNumber(MAP_X_MAX_VALUE, MAP_X_MIN_VALUE) - (MAP_PIN_WIDTH / 2);
-  }
-  if (axis === 'y') {
-    return getRandomNumber(MAP_Y_MAX_VALUE, MAP_Y_MIN_VALUE) - MAP_PIN_HEIGHT;
-  }
-};
-
 var getTypeOffer = function () {
   return OFFER_TYPE[getRandomNumber(3, 0)];
-}
+};
 
 var getMapPin = function () {
   return document.querySelector('.map__pins');
-}
+};
 
 var generateAds = function () {
   var author = [];
@@ -58,21 +49,21 @@ var generateAds = function () {
       avatar: getAvatarImgSrc(i + 1),
       offer: getTypeOffer(),
       location: {
-        x: getLocationPinByAxis('x'),
-        y: getLocationPinByAxis('y'),
+        x: getRandomNumber(MAP_X_MAX_VALUE, MAP_X_MIN_VALUE) - (MAP_PIN_WIDTH / 2),
+        y: getRandomNumber(MAP_Y_MAX_VALUE, MAP_Y_MIN_VALUE) - MAP_PIN_HEIGHT,
       }
     });
-  };
+  }
 
   return author;
-}
+};
 
 var generatePins = function () {
   var templatePin = getTemplatePin();
   var author = generateAds();
   var fragmentPin = document.createDocumentFragment();
 
-  for (var authorNumber = 0; authorNumber < author.length; authorNumber++ ) {
+  for (var authorNumber = 0; authorNumber < author.length; authorNumber++) {
     var pinElement = templatePin.cloneNode(true);
 
     pinElement.style.left = author[authorNumber].location.x + 'px';
@@ -84,12 +75,12 @@ var generatePins = function () {
   }
 
   return fragmentPin;
-}
+};
 
 var addMapPin = function () {
   var mapPin = getMapPin();
   mapPin.appendChild(generatePins());
-}
+};
 
 removeMapFaded();
 addMapPin();
