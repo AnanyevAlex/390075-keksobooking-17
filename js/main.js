@@ -1,9 +1,9 @@
 'use strict';
 
-var AUTHOR_COUNT = 8;
+var ADS_COUNT = 8;
 var AVATAR_IMG_EXTENSION = '.png';
 var AVATAR_IMG_SRC = 'img/avatars/user';
-var OFFER_TYPE = ['palace', 'flat', 'house', 'bungalo'];
+var OFFER_TYPES = ['palace', 'flat', 'house', 'bungalo'];
 var MAP_PIN_WIDTH = 50;
 var MAP_PIN_HEIGHT = 70;
 var MAP_Y_MAX_VALUE = 630;
@@ -16,8 +16,8 @@ var getRandomNumber = function (max, min) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 };
 
-var getAvatarImgSrc = function (numberAuthor) {
-  return AVATAR_IMG_SRC + '0' + numberAuthor + AVATAR_IMG_EXTENSION;
+var getAvatarImgSrc = function (numberads) {
+  return AVATAR_IMG_SRC + '0' + numberads + AVATAR_IMG_EXTENSION;
 };
 
 var removeMapFaded = function () {
@@ -34,7 +34,7 @@ var getTemplatePin = function () {
 };
 
 var getTypeOffer = function () {
-  return OFFER_TYPE[getRandomNumber(3, 0)];
+  return OFFER_TYPES[getRandomNumber(3, 0)];
 };
 
 var getMapPin = function () {
@@ -42,10 +42,10 @@ var getMapPin = function () {
 };
 
 var generateAds = function () {
-  var author = [];
+  var ads = [];
 
-  for (var i = 0; i < AUTHOR_COUNT; i++) {
-    author.push({
+  for (var i = 0; i < ADS_COUNT; i++) {
+    ads.push({
       avatar: getAvatarImgSrc(i + 1),
       offer: getTypeOffer(),
       location: {
@@ -55,23 +55,27 @@ var generateAds = function () {
     });
   }
 
-  return author;
+  return ads;
+};
+
+var addPinInfo = function (ad, template) {
+  var pinElement = template.cloneNode(true);
+  pinElement.style.left = ad.location.x + 'px';
+  pinElement.style.top = ad.location.y + 'px';
+  var avatarImage = pinElement.querySelector('img');
+  avatarImage.src = ad.avatar;
+  avatarImage.alt = ad.offer;
+
+  return pinElement;
 };
 
 var generatePins = function () {
   var templatePin = getTemplatePin();
-  var author = generateAds();
+  var ads = generateAds();
   var fragmentPin = document.createDocumentFragment();
 
-  for (var authorNumber = 0; authorNumber < author.length; authorNumber++) {
-    var pinElement = templatePin.cloneNode(true);
-
-    pinElement.style.left = author[authorNumber].location.x + 'px';
-    pinElement.style.top = author[authorNumber].location.y + 'px';
-    var avatarImage = pinElement.querySelector('img');
-    avatarImage.src = author[authorNumber].avatar;
-    avatarImage.alt = author[authorNumber].offer;
-    fragmentPin.appendChild(pinElement);
+  for (var k = 0; k < ads.length; k++) {
+    fragmentPin.appendChild(addPinInfo(ads[k], templatePin));
   }
 
   return fragmentPin;
