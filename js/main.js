@@ -11,7 +11,6 @@ var MAP_Y_MIN_VALUE = 130;
 var MAP_X_MAX_VALUE = 1200;
 var MAP_X_MIN_VALUE = 0;
 
-
 var getRandomNumber = function (max, min) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 };
@@ -86,5 +85,64 @@ var addMapPin = function () {
   mapPin.appendChild(generatePins());
 };
 
-removeMapFaded();
-addMapPin();
+var getAdForm = function () {
+  var adForm = document.querySelector('.ad-form');
+  return adForm;
+};
+
+var getAdFieldset = function () {
+  var adFormFieldset = document.querySelectorAll('.ad-form__element');
+  return adFormFieldset;
+};
+
+var disabledFieldset = function () {
+  var adFormFieldset = getAdFieldset();
+
+  for (var i = 0; i < adFormFieldset.length; i++) {
+    adFormFieldset[i].setAttribute('disabled', 'disabled');
+  }
+};
+
+var removeDisabledFieldset = function () {
+  var adFormFieldset = getAdFieldset();
+
+  for (var i = 0; i < adFormFieldset.length; i++) {
+    adFormFieldset[i].removeAttribute('disabled', 'disabled');
+  }
+};
+
+var removeDisabledForm = function () {
+  var adForm = getAdForm();
+
+  adForm.classList.remove('ad-form--disabled');
+};
+
+var getMainMapPin = function () {
+  var MainMapPin = document.querySelector('.map__pin--main');
+  return MainMapPin;
+};
+
+var getInputAddress = function () {
+  var InputAddress = document.querySelector('#address');
+  return InputAddress;
+};
+
+var focusInput = function (functionGetInputName) {
+  var oneInput = functionGetInputName();
+  oneInput.focus();
+};
+
+var activeAllPage = function () {
+  var MainMapPin = getMainMapPin();
+
+  MainMapPin.addEventListener('mouseup', function () {
+    removeMapFaded();
+    removeDisabledForm();
+    removeDisabledFieldset();
+    addMapPin();
+    focusInput(getInputAddress);
+  });
+};
+
+disabledFieldset();
+activeAllPage();
