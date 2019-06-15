@@ -6,6 +6,8 @@ var AVATAR_IMG_SRC = 'img/avatars/user';
 var OFFER_TYPES = ['palace', 'flat', 'house', 'bungalo'];
 var MAP_PIN_WIDTH = 50;
 var MAP_PIN_HEIGHT = 70;
+var MAP_MAIN_PIN_WIDTH = 65;
+var MAP_MAIN_PIN_HEIGHT = 65;
 var MAP_Y_MAX_VALUE = 630;
 var MAP_Y_MIN_VALUE = 130;
 var MAP_X_MAX_VALUE = 1200;
@@ -122,14 +124,26 @@ var getMainMapPin = function () {
   return MainMapPin;
 };
 
-var getInputAddress = function () {
-  var InputAddress = document.querySelector('#address');
-  return InputAddress;
+var getLocationPin = function (getPin) {
+  var pinLocation = getPin();
+  var posX = Math.floor(pinLocation.offsetTop + MAP_MAIN_PIN_WIDTH / 2);
+  var posY = Math.floor(pinLocation.offsetLeft + MAP_MAIN_PIN_HEIGHT / 2);
+  return posX + ', ' + posY;
 };
 
-var focusInput = function (functionGetInputName) {
-  var oneInput = functionGetInputName();
+var getInputAddress = function () {
+  var inputAddress = document.querySelector('#address');
+  return inputAddress;
+};
+
+var focusInput = function (getInput) {
+  var oneInput = getInput();
   oneInput.focus();
+};
+
+var addInputValue = function () {
+  var inputAddress = getInputAddress();
+  inputAddress.value = getLocationPin(getMainMapPin);
 };
 
 var activeAllPage = function () {
@@ -141,7 +155,9 @@ var activeAllPage = function () {
     removeDisabledFieldset();
     addMapPin();
     focusInput(getInputAddress);
+    addInputValue();
   });
+  MainMapPin.removeEventListener('mouseuo', function () {});
 };
 
 disabledFieldset();
