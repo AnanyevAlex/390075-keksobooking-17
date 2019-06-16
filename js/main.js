@@ -97,7 +97,7 @@ var getAdFieldset = function () {
   return adFormFieldset;
 };
 
-var disabledFieldset = function () {
+var disableForm = function () {
   var adFormFieldset = getAdFieldset();
 
   for (var i = 0; i < adFormFieldset.length; i++) {
@@ -105,7 +105,7 @@ var disabledFieldset = function () {
   }
 };
 
-var removeDisabledFieldset = function () {
+var activateForm = function () {
   var adFormFieldset = getAdFieldset();
 
   for (var i = 0; i < adFormFieldset.length; i++) {
@@ -120,45 +120,35 @@ var removeDisabledForm = function () {
 };
 
 var getMainMapPin = function () {
-  var MainMapPin = document.querySelector('.map__pin--main');
-  return MainMapPin;
+  return document.querySelector('.map__pin--main');
 };
 
-var getLocationPin = function (getPin) {
-  var pinLocation = getPin();
+var mainMapPin = getMainMapPin();
+
+var getLocationMainPin = function () {
+  var pinLocation = mainMapPin;
   var posX = Math.floor(pinLocation.offsetTop + MAP_MAIN_PIN_WIDTH / 2);
   var posY = Math.floor(pinLocation.offsetLeft + MAP_MAIN_PIN_HEIGHT / 2);
   return posX + ', ' + posY;
 };
 
 var getInputAddress = function () {
-  var inputAddress = document.querySelector('#address');
-  return inputAddress;
-};
-
-var focusInput = function (getInput) {
-  var oneInput = getInput();
-  oneInput.focus();
+  return document.querySelector('#address');
 };
 
 var addInputValue = function () {
   var inputAddress = getInputAddress();
-  inputAddress.value = getLocationPin(getMainMapPin);
+  inputAddress.value = getLocationMainPin();
 };
 
-var activeAllPage = function () {
-  var MainMapPin = getMainMapPin();
-
-  MainMapPin.addEventListener('mouseup', function () {
-    removeMapFaded();
-    removeDisabledForm();
-    removeDisabledFieldset();
-    addMapPin();
-    focusInput(getInputAddress);
-    addInputValue();
-  });
-  MainMapPin.removeEventListener('mouseuo', function () {});
+var mapPinClickHandler = function () {
+  removeMapFaded();
+  removeDisabledForm();
+  activateForm();
+  addMapPin();
+  mainMapPin.removeEventListener('mouseup', mapPinClickHandler);
 };
 
-disabledFieldset();
-activeAllPage();
+mainMapPin.addEventListener('mouseup', mapPinClickHandler);
+addInputValue();
+disableForm();
