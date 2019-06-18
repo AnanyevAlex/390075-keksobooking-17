@@ -93,6 +93,11 @@ var getAdForm = function () {
   return adForm;
 };
 
+var getMapFilters = function () {
+  var mapFilters = document.querySelector('.map__filters');
+  return mapFilters;
+};
+
 var getAdFieldset = function () {
   var adFormFieldset = document.querySelectorAll('.ad-form__element');
   return adFormFieldset;
@@ -104,6 +109,16 @@ var disableForm = function () {
   for (var i = 0; i < adFormFieldset.length; i++) {
     adFormFieldset[i].setAttribute('disabled', 'disabled');
   }
+};
+
+var disableMapFilters = function () {
+  var mapFilters = getMapFilters();
+  mapFilters.setAttribute('disabled', 'disabled');
+};
+
+var activateMapFilters = function () {
+  var mapFilters = getMapFilters();
+  mapFilters.removeAttribute('disabled', 'disabled');
 };
 
 var activateForm = function () {
@@ -152,6 +167,7 @@ var mapPinClickHandler = function () {
   removeDisabledForm();
   activateForm();
   addMapPin();
+  activateMapFilters();
   disableInputAddress();
   mainMapPin.removeEventListener('mouseup', mapPinClickHandler);
 };
@@ -182,6 +198,7 @@ var selectTime = function (selectItem, changeItem) {
   });
 };
 
+disableMapFilters();
 selectTime(getTimeInInput(), getTimeOutInput());
 selectTime(getTimeOutInput(), getTimeInInput());
 getMinPriceFromeTypeOffer();
