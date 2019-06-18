@@ -12,6 +12,7 @@ var MAP_Y_MAX_VALUE = 630;
 var MAP_Y_MIN_VALUE = 130;
 var MAP_X_MAX_VALUE = 1200;
 var MAP_X_MIN_VALUE = 0;
+var MIN_PRICE_OF_TYPE_OFFER = {bungalo: 0, flat: 1000, house: 5000, palace: 10000};
 
 var getRandomNumber = function (max, min) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -141,14 +142,49 @@ var addInputValue = function () {
   inputAddress.value = getLocationMainPin();
 };
 
+var disableInputAddress = function () {
+  var inputAddress = getInputAddress();
+  inputAddress.setAttribute('disabled', 'disabled');
+};
+
 var mapPinClickHandler = function () {
   removeMapFaded();
   removeDisabledForm();
   activateForm();
   addMapPin();
+  disableInputAddress();
   mainMapPin.removeEventListener('mouseup', mapPinClickHandler);
 };
 
+var getMinPriceFromeTypeOffer = function () {
+  var selectTypeOffer = document.querySelector('#type');
+  var inputPrice = document.querySelector('#price');
+
+  selectTypeOffer.addEventListener('change', function () {
+    inputPrice.placeholder = MIN_PRICE_OF_TYPE_OFFER[selectTypeOffer.value];
+    inputPrice.min = MIN_PRICE_OF_TYPE_OFFER[selectTypeOffer.value];
+  });
+};
+
+var getTimeInInput = function () {
+  var timeIn = document.querySelector('#timein');
+  return timeIn;
+};
+
+var getTimeOutInput = function () {
+  var timeOut = document.querySelector('#timeout');
+  return timeOut;
+};
+
+var selectTime = function (selectItem, changeItem) {
+  selectItem.addEventListener('change', function (evt) {
+    changeItem.value = evt.target.value;
+  });
+};
+
+selectTime(getTimeInInput(), getTimeOutInput());
+selectTime(getTimeOutInput(), getTimeInInput());
+getMinPriceFromeTypeOffer();
 mainMapPin.addEventListener('mouseup', mapPinClickHandler);
 addInputValue();
 disableForm();
