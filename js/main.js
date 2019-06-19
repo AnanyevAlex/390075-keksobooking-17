@@ -27,7 +27,7 @@ var removeMapFaded = function () {
   mapBlock.classList.remove('map--faded');
 };
 
-var getTemplatePin = function () {
+var getTemplatePinEl = function () {
   var templatePin = document.querySelector('#pin')
   .content
   .querySelector('.map__pin');
@@ -72,7 +72,7 @@ var addPinInfo = function (ad, template) {
 };
 
 var generatePins = function () {
-  var templatePin = getTemplatePin();
+  var templatePin = getTemplatePinEl();
   var ads = generateAds();
   var fragmentPin = document.createDocumentFragment();
 
@@ -88,12 +88,12 @@ var addMapPin = function () {
   mapPin.appendChild(generatePins());
 };
 
-var getAdForm = function () {
+var getAdFormEl = function () {
   var adForm = document.querySelector('.ad-form');
   return adForm;
 };
 
-var getMapFilters = function () {
+var getMapFiltersEl = function () {
   var mapFilters = document.querySelector('.map__filters');
   return mapFilters;
 };
@@ -112,12 +112,12 @@ var disableForm = function () {
 };
 
 var disableMapFilters = function () {
-  var mapFilters = getMapFilters();
+  var mapFilters = getMapFiltersEl();
   mapFilters.setAttribute('disabled', 'disabled');
 };
 
 var activateMapFilters = function () {
-  var mapFilters = getMapFilters();
+  var mapFilters = getMapFiltersEl();
   mapFilters.removeAttribute('disabled', 'disabled');
 };
 
@@ -130,16 +130,16 @@ var activateForm = function () {
 };
 
 var removeDisabledForm = function () {
-  var adForm = getAdForm();
+  var adForm = getAdFormEl();
 
   adForm.classList.remove('ad-form--disabled');
 };
 
-var getMainMapPin = function () {
+var getMainMapPinEl = function () {
   return document.querySelector('.map__pin--main');
 };
 
-var mainMapPin = getMainMapPin();
+var mainMapPin = getMainMapPinEl();
 
 var getLocationMainPin = function () {
   var pinLocation = mainMapPin;
@@ -148,17 +148,17 @@ var getLocationMainPin = function () {
   return posX + ', ' + posY;
 };
 
-var getInputAddress = function () {
+var getInputAddressEl = function () {
   return document.querySelector('#address');
 };
 
 var addInputValue = function () {
-  var inputAddress = getInputAddress();
+  var inputAddress = getInputAddressEl();
   inputAddress.value = getLocationMainPin();
 };
 
 var disableInputAddress = function () {
-  var inputAddress = getInputAddress();
+  var inputAddress = getInputAddressEl();
   inputAddress.setAttribute('disabled', 'disabled');
 };
 
@@ -172,36 +172,36 @@ var mapPinClickHandler = function () {
   mainMapPin.removeEventListener('mouseup', mapPinClickHandler);
 };
 
-var getMinPriceFromeTypeOffer = function () {
-  var selectTypeOffer = document.querySelector('#type');
+var addOfferTypeChangeHandler = function () {
+  var offerTypeSelectEl = document.querySelector('#type');
   var inputPrice = document.querySelector('#price');
 
-  selectTypeOffer.addEventListener('change', function () {
-    inputPrice.placeholder = MIN_PRICE_OF_TYPE_OFFER[selectTypeOffer.value];
-    inputPrice.min = MIN_PRICE_OF_TYPE_OFFER[selectTypeOffer.value];
+  offerTypeSelectEl.addEventListener('change', function () {
+    inputPrice.placeholder = MIN_PRICE_OF_TYPE_OFFER[offerTypeSelectEl.value];
+    inputPrice.min = MIN_PRICE_OF_TYPE_OFFER[offerTypeSelectEl.value];
   });
 };
 
-var getTimeInInput = function () {
+var getTimeInEl = function () {
   var timeIn = document.querySelector('#timein');
   return timeIn;
 };
 
-var getTimeOutInput = function () {
+var getTimeOutEl = function () {
   var timeOut = document.querySelector('#timeout');
   return timeOut;
 };
 
-var selectTime = function (selectItem, changeItem) {
-  selectItem.addEventListener('change', function (evt) {
-    changeItem.value = evt.target.value;
+var addTimeChangeHandler = function (timeSelectField, relatedTimeSelectField) {
+  timeSelectField.addEventListener('change', function (evt) {
+    relatedTimeSelectField.value = evt.target.value;
   });
 };
 
 disableMapFilters();
-selectTime(getTimeInInput(), getTimeOutInput());
-selectTime(getTimeOutInput(), getTimeInInput());
-getMinPriceFromeTypeOffer();
+addTimeChangeHandler(getTimeInEl(), getTimeOutEl());
+addTimeChangeHandler(getTimeOutEl(), getTimeInEl());
+addOfferTypeChangeHandler();
 mainMapPin.addEventListener('mouseup', mapPinClickHandler);
 addInputValue();
 disableForm();
