@@ -12,6 +12,7 @@ var MAP_Y_MAX_VALUE = 630;
 var MAP_Y_MIN_VALUE = 130;
 var MAP_X_MAX_VALUE = 1200;
 var MAP_X_MIN_VALUE = 0;
+var MIN_PRICE_OF_TYPE_OFFER = {bungalo: 0, flat: 1000, house: 5000, palace: 10000};
 
 var getRandomNumber = function (max, min) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -22,23 +23,23 @@ var getAvatarImgSrc = function (numberads) {
 };
 
 var removeMapFaded = function () {
-  var mapBlock = document.querySelector('.map');
-  mapBlock.classList.remove('map--faded');
+  var mapBlockEl = document.querySelector('.map');
+  mapBlockEl.classList.remove('map--faded');
 };
 
-var getTemplatePin = function () {
-  var templatePin = document.querySelector('#pin')
+var getTemplatePinEl = function () {
+  var templatePinEl = document.querySelector('#pin')
   .content
   .querySelector('.map__pin');
 
-  return templatePin;
+  return templatePinEl;
 };
 
 var getTypeOffer = function () {
   return OFFER_TYPES[getRandomNumber(3, 0)];
 };
 
-var getMapPin = function () {
+var getMapPinEl = function () {
   return document.querySelector('.map__pins');
 };
 
@@ -63,82 +64,102 @@ var addPinInfo = function (ad, template) {
   var pinElement = template.cloneNode(true);
   pinElement.style.left = ad.location.x + 'px';
   pinElement.style.top = ad.location.y + 'px';
-  var avatarImage = pinElement.querySelector('img');
-  avatarImage.src = ad.avatar;
-  avatarImage.alt = ad.offer;
+  var avatarImageEl = pinElement.querySelector('img');
+  avatarImageEl.src = ad.avatar;
+  avatarImageEl.alt = ad.offer;
 
   return pinElement;
 };
 
 var generatePins = function () {
-  var templatePin = getTemplatePin();
+  var templatePinEl = getTemplatePinEl();
   var ads = generateAds();
   var fragmentPin = document.createDocumentFragment();
 
   for (var k = 0; k < ads.length; k++) {
-    fragmentPin.appendChild(addPinInfo(ads[k], templatePin));
+    fragmentPin.appendChild(addPinInfo(ads[k], templatePinEl));
   }
 
   return fragmentPin;
 };
 
 var addMapPin = function () {
-  var mapPin = getMapPin();
-  mapPin.appendChild(generatePins());
+  var mapPinEl = getMapPinEl();
+  mapPinEl.appendChild(generatePins());
 };
 
-var getAdForm = function () {
-  var adForm = document.querySelector('.ad-form');
-  return adForm;
+var getAdFormEl = function () {
+  var adFormEl = document.querySelector('.ad-form');
+  return adFormEl;
 };
 
-var getAdFieldset = function () {
-  var adFormFieldset = document.querySelectorAll('.ad-form__element');
-  return adFormFieldset;
+var getMapFiltersEl = function () {
+  var mapFiltersEl = document.querySelector('.map__filters');
+  return mapFiltersEl;
+};
+
+var getAdFieldsetEl = function () {
+  var adFormFieldsetEl = document.querySelectorAll('.ad-form__element');
+  return adFormFieldsetEl;
 };
 
 var disableForm = function () {
-  var adFormFieldset = getAdFieldset();
+  var adFormFieldsetEl = getAdFieldsetEl();
 
-  for (var i = 0; i < adFormFieldset.length; i++) {
-    adFormFieldset[i].setAttribute('disabled', 'disabled');
+  for (var i = 0; i < adFormFieldsetEl.length; i++) {
+    adFormFieldsetEl[i].setAttribute('disabled', 'disabled');
   }
 };
 
-var activateForm = function () {
-  var adFormFieldset = getAdFieldset();
+var disableMapFilters = function () {
+  var mapFiltersEl = getMapFiltersEl();
+  mapFiltersEl.setAttribute('disabled', 'disabled');
+};
 
-  for (var i = 0; i < adFormFieldset.length; i++) {
-    adFormFieldset[i].removeAttribute('disabled', 'disabled');
+var activateMapFilters = function () {
+  var mapFiltersEl = getMapFiltersEl();
+  mapFiltersEl.removeAttribute('disabled', 'disabled');
+};
+
+var activateForm = function () {
+  var adFormFieldsetEl = getAdFieldsetEl();
+
+  for (var i = 0; i < adFormFieldsetEl.length; i++) {
+    adFormFieldsetEl[i].removeAttribute('disabled', 'disabled');
   }
 };
 
 var removeDisabledForm = function () {
-  var adForm = getAdForm();
+  var adFormEl = getAdFormEl();
 
-  adForm.classList.remove('ad-form--disabled');
+  adFormEl.classList.remove('ad-form--disabled');
 };
 
-var getMainMapPin = function () {
+var getMainMapPinEl = function () {
   return document.querySelector('.map__pin--main');
 };
 
-var mainMapPin = getMainMapPin();
+var mainMapPinEl = getMainMapPinEl();
 
 var getLocationMainPin = function () {
-  var pinLocation = mainMapPin;
-  var posX = Math.floor(pinLocation.offsetTop + MAP_MAIN_PIN_WIDTH / 2);
-  var posY = Math.floor(pinLocation.offsetLeft + MAP_MAIN_PIN_HEIGHT / 2);
+  var pinLocation = mainMapPinEl;
+  var posY = Math.floor(pinLocation.offsetTop + MAP_MAIN_PIN_WIDTH / 2);
+  var posX = Math.floor(pinLocation.offsetLeft + MAP_MAIN_PIN_HEIGHT / 2);
   return posX + ', ' + posY;
 };
 
-var getInputAddress = function () {
+var getInputAddressEl = function () {
   return document.querySelector('#address');
 };
 
 var addInputValue = function () {
-  var inputAddress = getInputAddress();
-  inputAddress.value = getLocationMainPin();
+  var inputAddressEl = getInputAddressEl();
+  inputAddressEl.value = getLocationMainPin();
+};
+
+var disableInputAddress = function () {
+  var inputAddressEl = getInputAddressEl();
+  inputAddressEl.setAttribute('disabled', 'disabled');
 };
 
 var mapPinClickHandler = function () {
@@ -146,9 +167,41 @@ var mapPinClickHandler = function () {
   removeDisabledForm();
   activateForm();
   addMapPin();
-  mainMapPin.removeEventListener('mouseup', mapPinClickHandler);
+  activateMapFilters();
+  disableInputAddress();
+  mainMapPinEl.removeEventListener('mouseup', mapPinClickHandler);
 };
 
-mainMapPin.addEventListener('mouseup', mapPinClickHandler);
+var addOfferTypeChangeHandler = function () {
+  var offerTypeSelectEl = document.querySelector('#type');
+  var inputPriceEl = document.querySelector('#price');
+
+  offerTypeSelectEl.addEventListener('change', function () {
+    inputPriceEl.placeholder = MIN_PRICE_OF_TYPE_OFFER[offerTypeSelectEl.value];
+    inputPriceEl.min = MIN_PRICE_OF_TYPE_OFFER[offerTypeSelectEl.value];
+  });
+};
+
+var getTimeInEl = function () {
+  var timeInEl = document.querySelector('#timein');
+  return timeInEl;
+};
+
+var getTimeOutEl = function () {
+  var timeOutEl = document.querySelector('#timeout');
+  return timeOutEl;
+};
+
+var addTimeChangeHandler = function (timeSelectField, relatedTimeSelectField) {
+  timeSelectField.addEventListener('change', function (evt) {
+    relatedTimeSelectField.value = evt.target.value;
+  });
+};
+
+disableMapFilters();
+addTimeChangeHandler(getTimeInEl(), getTimeOutEl());
+addTimeChangeHandler(getTimeOutEl(), getTimeInEl());
+addOfferTypeChangeHandler();
+mainMapPinEl.addEventListener('mouseup', mapPinClickHandler);
 addInputValue();
 disableForm();
