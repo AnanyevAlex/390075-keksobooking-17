@@ -208,7 +208,14 @@ var addTimeChangeHandler = function (timeSelectField, relatedTimeSelectField) {
         y: moveEvt.clientY
       };
 
-      mainMapPinEl.style.top = (mainMapPinEl.offsetTop - shift.y) + 'px';
+      if (mainMapPinEl.offsetTop - shift.y > MAP_Y_MAX_VALUE) {
+        mainMapPinEl.style.top = MAP_Y_MAX_VALUE + 'px';
+      } else if (mainMapPinEl.offsetTop - shift.y < MAP_Y_MIN_VALUE) {
+        mainMapPinEl.style.top = MAP_Y_MIN_VALUE + 'px';
+      } else {
+        mainMapPinEl.style.top = (mainMapPinEl.offsetTop - shift.y) + 'px';
+      }
+
       mainMapPinEl.style.left = (mainMapPinEl.offsetLeft - shift.x) + 'px';
 
       var posY = Math.floor((mainMapPinEl.offsetTop - shift.y) - MAP_MAIN_PIN_HEIGHT);
