@@ -208,12 +208,12 @@ var addTimeChangeHandler = function (timeSelectField, relatedTimeSelectField) {
         y: moveEvt.clientY
       };
 
-      var pinYCoord = Math.max(MAP_Y_MIN_VALUE, Math.min(MAP_Y_MAX_VALUE, (mainMapPinEl.offsetTop - shift.y)));
-      var mapPin = pinYCoord - MAP_MAIN_PIN_HEIGHT;
-      mainMapPinEl.style.top = mapPin + 'px';
+      var pinYCoord = Math.max(MAP_Y_MIN_VALUE - MAP_MAIN_PIN_HEIGHT, Math.min(MAP_Y_MAX_VALUE - MAP_MAIN_PIN_HEIGHT, (mainMapPinEl.offsetTop - shift.y)));
 
+      mainMapPinEl.style.top = pinYCoord + 'px';
       mainMapPinEl.style.left = (mainMapPinEl.offsetLeft - shift.x) + 'px';
-      var posY = Math.max(MAP_Y_MIN_VALUE, Math.min(MAP_Y_MAX_VALUE, (mainMapPinEl.offsetTop - shift.y)));
+
+      var posY = Math.floor((mainMapPinEl.offsetTop - shift.y) + MAP_MAIN_PIN_HEIGHT);
       var posX = Math.floor((mainMapPinEl.offsetLeft - shift.x) - MAP_MAIN_PIN_WIDTH / 2);
 
       inputAddressEl.value = posX + ', ' + posY;
