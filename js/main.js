@@ -231,11 +231,11 @@ var addTimeChangeHandler = function (timeSelectField, relatedTimeSelectField) {
       }
 
       mapBlockEl.removeEventListener('mousemove', onMouseMove);
-      mapBlockEl.removeEventListener('mouseup', onMouseUp);
+      document.removeEventListener('mouseup', onMouseUp);
     };
 
     mapBlockEl.addEventListener('mousemove', onMouseMove);
-    mapBlockEl.addEventListener('mouseup', onMouseUp);
+    document.addEventListener('mouseup', onMouseUp);
   });
 })();
 
