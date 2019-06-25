@@ -7,6 +7,7 @@ var OFFER_TYPES = ['palace', 'flat', 'house', 'bungalo'];
 var MAP_PIN_WIDTH = 50;
 var MAP_PIN_HEIGHT = 70;
 var MAP_MAIN_PIN_WIDTH = 65;
+var MAP_MAIN_PIN_HEIGHT = 81;
 var MAP_Y_MAX_VALUE = 630;
 var MAP_Y_MIN_VALUE = 130;
 var MAP_X_MAX_VALUE = 1200;
@@ -207,11 +208,13 @@ var addTimeChangeHandler = function (timeSelectField, relatedTimeSelectField) {
         y: moveEvt.clientY
       };
 
-      var posY = Math.max(MAP_Y_MIN_VALUE, Math.min(MAP_Y_MAX_VALUE, (mainMapPinEl.offsetTop - shift.y)));
-      mainMapPinEl.style.top = posY + 'px';
-      var posX = Math.floor((mainMapPinEl.offsetLeft - shift.x) - MAP_MAIN_PIN_WIDTH / 2);
+      var pinYCoord = Math.max(MAP_Y_MIN_VALUE, Math.min(MAP_Y_MAX_VALUE, (mainMapPinEl.offsetTop - shift.y)));
+      var mapPin = pinYCoord - MAP_MAIN_PIN_HEIGHT;
+      mainMapPinEl.style.top = mapPin + 'px';
 
       mainMapPinEl.style.left = (mainMapPinEl.offsetLeft - shift.x) + 'px';
+      var posY = Math.max(MAP_Y_MIN_VALUE, Math.min(MAP_Y_MAX_VALUE, (mainMapPinEl.offsetTop - shift.y)));
+      var posX = Math.floor((mainMapPinEl.offsetLeft - shift.x) - MAP_MAIN_PIN_WIDTH / 2);
 
       inputAddressEl.value = posX + ', ' + posY;
     };
