@@ -9,7 +9,7 @@ var MAP_PIN_HEIGHT = 70;
 var MAP_MAIN_PIN_WIDTH = 65;
 var MAP_MAIN_PIN_HEIGHT = 81;
 var MAP_Y_MAX_VALUE = 630;
-var MAP_Y_MIN_VALUE = 125;
+var MAP_Y_MIN_VALUE = 130;
 var MAP_X_MAX_VALUE = 1200;
 var MAP_X_MIN_VALUE = 0;
 var MIN_PRICE_OF_TYPE_OFFER = {bungalo: 0, flat: 1000, house: 5000, palace: 10000};
@@ -208,13 +208,8 @@ var addTimeChangeHandler = function (timeSelectField, relatedTimeSelectField) {
         y: moveEvt.clientY
       };
 
-      if (mainMapPinEl.offsetTop - shift.y > MAP_Y_MAX_VALUE) {
-        mainMapPinEl.style.top = MAP_Y_MAX_VALUE + 'px';
-      } else if (mainMapPinEl.offsetTop - shift.y < MAP_Y_MIN_VALUE) {
-        mainMapPinEl.style.top = MAP_Y_MIN_VALUE + 'px';
-      } else {
-        mainMapPinEl.style.top = (mainMapPinEl.offsetTop - shift.y) + 'px';
-      }
+      var maxMinYCoords = Math.max(MAP_Y_MIN_VALUE, Math.min(MAP_Y_MAX_VALUE, (mainMapPinEl.offsetTop - shift.y)));
+      mainMapPinEl.style.top = maxMinYCoords + 'px';
 
       mainMapPinEl.style.left = (mainMapPinEl.offsetLeft - shift.x) + 'px';
 
