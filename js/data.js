@@ -1,4 +1,4 @@
-
+'use strict';
 (function () {
   var ADS_COUNT = 8;
   var AVATAR_IMG_EXTENSION = '.png';
@@ -11,7 +11,7 @@
   var MAP_X_MAX_VALUE = 1200;
   var MAP_X_MIN_VALUE = 0;
 
-  window.getRandomNumber = function (max, min) {
+  var getRandomNumber = function (max, min) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
   };
 
@@ -86,5 +86,5 @@
     MAP_Y_MIN_VALUE: MAP_Y_MIN_VALUE,
     MAP_X_MAX_VALUE: MAP_X_MAX_VALUE,
     MAP_X_MIN_VALUE: MAP_X_MIN_VALUE
-  }
+  };
 })();

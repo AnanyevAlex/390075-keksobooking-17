@@ -1,3 +1,4 @@
+'use strict';
 (function () {
   var MAP_MAIN_PIN_WIDTH = 65;
   var MAP_MAIN_PIN_HEIGHT = 81;

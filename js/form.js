@@ -1,7 +1,8 @@
+'use strict';
 (function () {
   var MIN_PRICE_OF_TYPE_OFFER = {bungalo: 0, flat: 1000, house: 5000, palace: 10000};
 
-	var getAdFormEl = function () {
+  var getAdFormEl = function () {
     var adFormEl = document.querySelector('.ad-form');
     return adFormEl;
   };
@@ -84,5 +85,5 @@
     removeDisabledForm: removeDisabledForm,
     activateForm: activateForm,
     activateMapFilters: activateMapFilters,
-  }
+  };
 })();
