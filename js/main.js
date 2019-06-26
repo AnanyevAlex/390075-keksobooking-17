@@ -1,24 +1,30 @@
 'use strict';
 
-var ADS_COUNT = 8;
+/*var ADS_COUNT = 8;
 var AVATAR_IMG_EXTENSION = '.png';
 var AVATAR_IMG_SRC = 'img/avatars/user';
 var OFFER_TYPES = ['palace', 'flat', 'house', 'bungalo'];
 var MAP_PIN_WIDTH = 50;
-var MAP_PIN_HEIGHT = 70;
+var MAP_PIN_HEIGHT = 70;*/
 var MAP_MAIN_PIN_WIDTH = 65;
 var MAP_MAIN_PIN_HEIGHT = 81;
-var MAP_Y_MAX_VALUE = 630;
+/*var MAP_Y_MAX_VALUE = 630;
 var MAP_Y_MIN_VALUE = 130;
 var MAP_X_MAX_VALUE = 1200;
-var MAP_X_MIN_VALUE = 0;
+var MAP_X_MIN_VALUE = 0;*/
 var MIN_PRICE_OF_TYPE_OFFER = {bungalo: 0, flat: 1000, house: 5000, palace: 10000};
 
-var getRandomNumber = function (max, min) {
+/*var getRandomNumber = function (max, min) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 };
+*/
+var mapBlockEl = document.querySelector('.map');
 
-var getAvatarImgSrc = function (numberads) {
+var removeMapFaded = function () {
+  mapBlockEl.classList.remove('map--faded');
+};
+
+/*var getAvatarImgSrc = function (numberads) {
   return AVATAR_IMG_SRC + '0' + numberads + AVATAR_IMG_EXTENSION;
 };
 
@@ -82,12 +88,12 @@ var generatePins = function () {
   }
 
   return fragmentPin;
-};
+};*/
 
-var addMapPin = function () {
+/*var addMapPin = function () {
   var mapPinEl = getMapPinEl();
   mapPinEl.appendChild(generatePins());
-};
+};*/
 
 var getAdFormEl = function () {
   var adFormEl = document.querySelector('.ad-form');
@@ -191,7 +197,7 @@ var addTimeChangeHandler = function (timeSelectField, relatedTimeSelectField) {
       moveEvt.preventDefault();
       if (mapBlockEl.classList.contains('map--faded')) {
         removeMapFaded();
-        addMapPin();
+        window.data.addMapPin();
         removeDisabledForm();
         activateForm();
         activateMapFilters();
@@ -208,8 +214,8 @@ var addTimeChangeHandler = function (timeSelectField, relatedTimeSelectField) {
         y: moveEvt.clientY
       };
 
-      var pinYCoord = Math.max(MAP_Y_MIN_VALUE - MAP_MAIN_PIN_HEIGHT, Math.min(MAP_Y_MAX_VALUE - MAP_MAIN_PIN_HEIGHT, (mainMapPinEl.offsetTop - shift.y)));
-      var pinXCoord = Math.max(MAP_X_MIN_VALUE - MAP_MAIN_PIN_WIDTH / 2, Math.min(MAP_X_MAX_VALUE - MAP_MAIN_PIN_WIDTH / 2, (mainMapPinEl.offsetLeft - shift.x)));
+      var pinYCoord = Math.max(window.data.MAP_Y_MIN_VALUE - MAP_MAIN_PIN_HEIGHT, Math.min(window.data.MAP_Y_MAX_VALUE - MAP_MAIN_PIN_HEIGHT, (mainMapPinEl.offsetTop - shift.y)));
+      var pinXCoord = Math.max(window.data.MAP_X_MIN_VALUE - MAP_MAIN_PIN_WIDTH / 2, Math.min(window.data.MAP_X_MAX_VALUE - MAP_MAIN_PIN_WIDTH / 2, (mainMapPinEl.offsetLeft - shift.x)));
 
       mainMapPinEl.style.top = pinYCoord + 'px';
       mainMapPinEl.style.left = pinXCoord + 'px';
@@ -224,7 +230,7 @@ var addTimeChangeHandler = function (timeSelectField, relatedTimeSelectField) {
       upEvt.preventDefault();
       if (mapBlockEl.classList.contains('map--faded')) {
         removeMapFaded();
-        addMapPin();
+        window.data.addMapPin();
         removeDisabledForm();
         activateForm();
         activateMapFilters();
