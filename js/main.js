@@ -6,23 +6,23 @@ var AVATAR_IMG_SRC = 'img/avatars/user';
 var OFFER_TYPES = ['palace', 'flat', 'house', 'bungalo'];
 var MAP_PIN_WIDTH = 50;
 var MAP_PIN_HEIGHT = 70;*/
-var MAP_MAIN_PIN_WIDTH = 65;
-var MAP_MAIN_PIN_HEIGHT = 81;
+/*var MAP_MAIN_PIN_WIDTH = 65;
+var MAP_MAIN_PIN_HEIGHT = 81;*/
 /*var MAP_Y_MAX_VALUE = 630;
 var MAP_Y_MIN_VALUE = 130;
 var MAP_X_MAX_VALUE = 1200;
 var MAP_X_MIN_VALUE = 0;*/
-var MIN_PRICE_OF_TYPE_OFFER = {bungalo: 0, flat: 1000, house: 5000, palace: 10000};
+/*var MIN_PRICE_OF_TYPE_OFFER = {bungalo: 0, flat: 1000, house: 5000, palace: 10000};*/
 
 /*var getRandomNumber = function (max, min) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 };
 */
-var mapBlockEl = document.querySelector('.map');
+/*var mapBlockEl = document.querySelector('.map');
 
 var removeMapFaded = function () {
   mapBlockEl.classList.remove('map--faded');
-};
+};*/
 
 /*var getAvatarImgSrc = function (numberads) {
   return AVATAR_IMG_SRC + '0' + numberads + AVATAR_IMG_EXTENSION;
@@ -95,7 +95,7 @@ var generatePins = function () {
   mapPinEl.appendChild(generatePins());
 };*/
 
-var getAdFormEl = function () {
+/*var getAdFormEl = function () {
   var adFormEl = document.querySelector('.ad-form');
   return adFormEl;
 };
@@ -140,8 +140,8 @@ var removeDisabledForm = function () {
   var adFormEl = getAdFormEl();
 
   adFormEl.classList.remove('ad-form--disabled');
-};
-
+};*/
+/*
 var getMainMapPinEl = function () {
   return document.querySelector('.map__pin--main');
 };
@@ -155,8 +155,9 @@ var getInputAddressEl = function () {
 var disableInputAddress = function () {
   var inputAddressEl = getInputAddressEl();
   inputAddressEl.setAttribute('disabled', 'disabled');
-};
+};*/
 
+/*
 var addOfferTypeChangeHandler = function () {
   var offerTypeSelectEl = document.querySelector('#type');
   var inputPriceEl = document.querySelector('#price');
@@ -181,9 +182,9 @@ var addTimeChangeHandler = function (timeSelectField, relatedTimeSelectField) {
   timeSelectField.addEventListener('change', function (evt) {
     relatedTimeSelectField.value = evt.target.value;
   });
-};
+};*/
 
-(function () {
+/*(function () {
   mainMapPinEl.addEventListener('mousedown', function (evt) {
     evt.preventDefault();
 
@@ -198,9 +199,9 @@ var addTimeChangeHandler = function (timeSelectField, relatedTimeSelectField) {
       if (mapBlockEl.classList.contains('map--faded')) {
         removeMapFaded();
         window.data.addMapPin();
-        removeDisabledForm();
-        activateForm();
-        activateMapFilters();
+        window.form.removeDisabledForm();
+        window.form.activateForm();
+        window.form.activateMapFilters();
         disableInputAddress();
       }
 
@@ -231,9 +232,9 @@ var addTimeChangeHandler = function (timeSelectField, relatedTimeSelectField) {
       if (mapBlockEl.classList.contains('map--faded')) {
         removeMapFaded();
         window.data.addMapPin();
-        removeDisabledForm();
-        activateForm();
-        activateMapFilters();
+        window.form.removeDisabledForm();
+        window.form.activateForm();
+        window.form.activateMapFilters();
         disableInputAddress();
       }
 
@@ -244,10 +245,5 @@ var addTimeChangeHandler = function (timeSelectField, relatedTimeSelectField) {
     mapBlockEl.addEventListener('mousemove', onMouseMove);
     document.addEventListener('mouseup', onMouseUp);
   });
-})();
+})();*/
 
-disableMapFilters();
-addTimeChangeHandler(getTimeInEl(), getTimeOutEl());
-addTimeChangeHandler(getTimeOutEl(), getTimeInEl());
-addOfferTypeChangeHandler();
-disableForm();

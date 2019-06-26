@@ -88,4 +88,3 @@
     MAP_X_MIN_VALUE: MAP_X_MIN_VALUE
   }
 })();
-console.log(window.data.MAP_Y_MAX_VALUE);
