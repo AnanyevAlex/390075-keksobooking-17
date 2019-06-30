@@ -19,14 +19,6 @@
     return AVATAR_IMG_SRC + '0' + numberads + AVATAR_IMG_EXTENSION;
   };
 
-  var getTemplatePinEl = function () {
-    var templatePinEl = document.querySelector('#pin')
-    .content
-    .querySelector('.map__pin');
-
-    return templatePinEl;
-  };
-
   var getTypeOffer = function () {
     return OFFER_TYPES[getRandomNumber(3, 0)];
   };
@@ -52,35 +44,13 @@
     return ads;
   };
 
-  var addPinInfo = function (ad, template) {
-    var pinElement = template.cloneNode(true);
-    pinElement.style.left = ad.location.x + 'px';
-    pinElement.style.top = ad.location.y + 'px';
-    var avatarImageEl = pinElement.querySelector('img');
-    avatarImageEl.src = ad.avatar;
-    avatarImageEl.alt = ad.offer;
-
-    return pinElement;
-  };
-
-  var generatePins = function () {
-    var templatePinEl = getTemplatePinEl();
-    var ads = generateAds();
-    var fragmentPin = document.createDocumentFragment();
-
-    for (var k = 0; k < ads.length; k++) {
-      fragmentPin.appendChild(addPinInfo(ads[k], templatePinEl));
-    }
-
-    return fragmentPin;
-  };
-
   var addMapPin = function () {
     var mapPinEl = getMapPinEl();
-    mapPinEl.appendChild(generatePins());
+    mapPinEl.appendChild(window.pin.generatePins());
   };
 
   window.data = {
+    generateAds: generateAds,
     addMapPin: addMapPin,
     MAP_Y_MAX_VALUE: MAP_Y_MAX_VALUE,
     MAP_Y_MIN_VALUE: MAP_Y_MIN_VALUE,
