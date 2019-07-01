@@ -18,7 +18,7 @@
       moveEvt.preventDefault();
       if (mapBlockEl.classList.contains('map--faded')) {
         window.mapAction.removeMapFaded();
-        window.data.addMapPin();
+        window.pin.generatePins();
         window.form.removeDisabledForm();
         window.form.activateForm();
         window.form.activateMapFilters();
@@ -51,7 +51,7 @@
       upEvt.preventDefault();
       if (mapBlockEl.classList.contains('map--faded')) {
         window.mapAction.removeMapFaded();
-        window.data.addMapPin();
+        window.pin.generatePins();
         window.form.removeDisabledForm();
         window.form.activateForm();
         window.form.activateMapFilters();

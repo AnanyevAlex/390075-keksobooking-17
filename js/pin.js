@@ -5,8 +5,8 @@
     pinElement.style.left = ad.location.x + 'px';
     pinElement.style.top = ad.location.y + 'px';
     var avatarImageEl = pinElement.querySelector('img');
-    avatarImageEl.src = ad.avatar;
-    avatarImageEl.alt = ad.offer;
+    avatarImageEl.src = ad.author.avatar;
+    avatarImageEl.alt = ad.offer.title;
 
     return pinElement;
   };
@@ -19,17 +19,49 @@
     return templatePinEl;
   };
 
-  var generatePins = function () {
+  // var generatePins = function () {
+  //   var arrayData;
+  //   var onError = function (message) {
+  //     console.error(message);
+  //   };
+  //   var onSuccess = function (data) {
+  //     debugger
+  //     arrayData = data
+  //     return arrayData;
+  //     console.log(arrayData);
+  //   }
+
+  //   window.load('https://js.dump.academy/keksobooking/data', onSuccess, onError);
+  //   var templatePinEl = getTemplatePinEl();
+  //   var ads = window.data.generateAds();
+  //   var fragmentPin = document.createDocumentFragment();
+
+  //   for (var k = 0; k < ads.length; k++) {
+  //     fragmentPin.appendChild(addPinInfo(ads[k], templatePinEl));
+  //   }
+
+  //   return fragmentPin;
+  // };
+var generatePins = function () {
+  window.load(function (pin) {
     var templatePinEl = getTemplatePinEl();
-    var ads = window.data.generateAds();
+    var mapPinEl = window.data.getMapPinEl();
     var fragmentPin = document.createDocumentFragment();
-
-    for (var k = 0; k < ads.length; k++) {
-      fragmentPin.appendChild(addPinInfo(ads[k], templatePinEl));
+    console.log(pin)
+    for (var k = 0; k < 8; k++) {
+      fragmentPin.appendChild(addPinInfo(pin[k], templatePinEl));
     }
+    mapPinEl.appendChild(fragmentPin);
+    return mapPinEl;
 
-    return fragmentPin;
-  };
+  })
+}
+
+// var addMapPin = function () {
+//     var mapPinEl = window.data.getMapPinEl();
+//     console.log(generatePins())
+//     mapPinEl.appendChild(generatePins());
+//   };
 
   window.pin = {
     generatePins: generatePins,

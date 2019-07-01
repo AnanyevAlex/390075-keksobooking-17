@@ -28,6 +28,7 @@
   };
 
   var generateAds = function () {
+
     var ads = [];
 
     for (var i = 0; i < ADS_COUNT; i++) {
@@ -44,14 +45,9 @@
     return ads;
   };
 
-  var addMapPin = function () {
-    var mapPinEl = getMapPinEl();
-    mapPinEl.appendChild(window.pin.generatePins());
-  };
-
   window.data = {
     generateAds: generateAds,
-    addMapPin: addMapPin,
+    getMapPinEl: getMapPinEl,
     MAP_Y_MAX_VALUE: MAP_Y_MAX_VALUE,
     MAP_Y_MIN_VALUE: MAP_Y_MIN_VALUE,
     MAP_X_MAX_VALUE: MAP_X_MAX_VALUE,
