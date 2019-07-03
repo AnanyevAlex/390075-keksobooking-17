@@ -1,6 +1,6 @@
 'use strict';
 (function () {
-  var ADS_COUNT = 8;
+  var ADS_COUNT = 5;
 
   var getMapPinEl = function () {
     return document.querySelector('.map__pins');
@@ -34,15 +34,27 @@
     return templatePinEl;
   };
 
+/*  function getRandomSet(lo, hi, n) {
+    var res = new Set();
+    while (res.size < n) res.add(Math.floor(Math.random() * (hi - lo + 1)) + lo);
+    return res;
+  }
+*/
   var drawPins = function (pin) {
     var templatePinEl = getTemplatePinEl();
     var mapPinEl = getMapPinEl();
     var fragmentPin = document.createDocumentFragment();
 
-    var randomPin;
     for (var k = 0; k < ADS_COUNT; k++) {
-      randomPin = Math.floor(Math.random() * pin.length);
-      fragmentPin.appendChild(addPinInfo(randomPin, templatePinEl));
+      var randomPin = [];
+debugger
+    while (randomPin.size < 5) randomPin.add(Math.floor(Math.random() * (pin.length - 0 + 1)) + 0);
+
+    console.log(randomPin)
+
+
+
+      fragmentPin.appendChild(addPinInfo(pin[k], templatePinEl));
     }
     mapPinEl.appendChild(fragmentPin);
     return mapPinEl;
