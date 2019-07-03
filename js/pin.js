@@ -34,13 +34,15 @@
     return templatePinEl;
   };
 
-  var drawPin = function (pin) {
+  var drawPins = function (pin) {
     var templatePinEl = getTemplatePinEl();
     var mapPinEl = getMapPinEl();
     var fragmentPin = document.createDocumentFragment();
 
+    var randomPin;
     for (var k = 0; k < ADS_COUNT; k++) {
-      fragmentPin.appendChild(addPinInfo(pin[k], templatePinEl));
+      randomPin = Math.floor(Math.random() * pin.length);
+      fragmentPin.appendChild(addPinInfo(randomPin, templatePinEl));
     }
     mapPinEl.appendChild(fragmentPin);
     return mapPinEl;
@@ -56,7 +58,7 @@
   };
 
   var successHandler = function (pin) {
-    drawPin(pin);
+    drawPins(pin);
   };
 
   var errorHandler = function (errorMessage) {
