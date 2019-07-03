@@ -34,10 +34,11 @@
     return templatePinEl;
   };
 
-  var successHandler = function (pin) {
+  var drawPin = function (pin) {
     var templatePinEl = getTemplatePinEl();
     var mapPinEl = getMapPinEl();
     var fragmentPin = document.createDocumentFragment();
+
     for (var k = 0; k < ADS_COUNT; k++) {
       fragmentPin.appendChild(addPinInfo(pin[k], templatePinEl));
     }
@@ -45,13 +46,21 @@
     return mapPinEl;
   };
 
-  var errorHandler = function (errorMessage) {
+  var createErrorMessage = function (errorMessage) {
     var errorBlockEl = getErrorMessageEl();
     var mapBlock = window.mapAction.mapBlockEl;
     var errorBlock = errorBlockEl.cloneNode(true);
     var errorMessageText = errorBlock.querySelector('.error__message');
     errorMessageText.textContent = errorMessage;
     mapBlock.appendChild(errorBlock);
+  };
+
+  var successHandler = function (pin) {
+    drawPin(pin);
+  };
+
+  var errorHandler = function (errorMessage) {
+    createErrorMessage(errorMessage);
   };
 
   var loadPinsData = function () {
