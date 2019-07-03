@@ -26,6 +26,18 @@
     return pinElement;
   };
 
+  var shuffler = function (arr) {
+    var j;
+    var temp;
+    for (var i = arr.length - 1; i > 0; i--) {
+      j = Math.floor(Math.random() * (i + 1));
+      temp = arr[j];
+      arr[j] = arr[i];
+      arr[i] = temp;
+    }
+    return arr;
+  };
+
   var getTemplatePinEl = function () {
     var templatePinEl = document.querySelector('#pin')
     .content
@@ -34,27 +46,14 @@
     return templatePinEl;
   };
 
-/*  function getRandomSet(lo, hi, n) {
-    var res = new Set();
-    while (res.size < n) res.add(Math.floor(Math.random() * (hi - lo + 1)) + lo);
-    return res;
-  }
-*/
   var drawPins = function (pin) {
     var templatePinEl = getTemplatePinEl();
     var mapPinEl = getMapPinEl();
     var fragmentPin = document.createDocumentFragment();
+    var randomPinArr = shuffler(pin);
 
     for (var k = 0; k < ADS_COUNT; k++) {
-      var randomPin = [];
-debugger
-    while (randomPin.size < 5) randomPin.add(Math.floor(Math.random() * (pin.length - 0 + 1)) + 0);
-
-    console.log(randomPin)
-
-
-
-      fragmentPin.appendChild(addPinInfo(pin[k], templatePinEl));
+      fragmentPin.appendChild(addPinInfo(randomPinArr[k], templatePinEl));
     }
     mapPinEl.appendChild(fragmentPin);
     return mapPinEl;
