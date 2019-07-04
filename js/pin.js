@@ -46,12 +46,40 @@
     return templatePinEl;
   };
 
+  // фильтр по пину
+
+  var filterPins = function () {
+    var FilterValue;
+
+    var FilterOffer = document.querySelector('#housing-type');
+    FilterOffer.addEventListener('change', function () {
+      var mapa = document.querySelector('.map__pins');
+
+var buttonPin = document.querySelectorAll('.map__pin');
+console.log(buttonPin)
+Array.from(document.querySelectorAll('.map__pin'))
+    .forEach(element => element.remove());
+
+})
+      // mapa.parentNode.removeChild(buttonPin);
+
+
+
+
+  }
+
+
+
+console.log(filterPins());
+
+  // фильтр по пину конец
+
+
   var drawPins = function (pin) {
     var templatePinEl = getTemplatePinEl();
     var mapPinEl = getMapPinEl();
     var fragmentPin = document.createDocumentFragment();
     var randomPinArr = shuffler(pin);
-
     for (var k = 0; k < ADS_COUNT; k++) {
       fragmentPin.appendChild(addPinInfo(randomPinArr[k], templatePinEl));
     }
