@@ -26,7 +26,6 @@
     inputAddressEl.setAttribute('disabled', 'disabled');
   };
 
-
   var mapBlockEl = window.mapAction.mapBlockEl;
   mainMapPinEl.addEventListener('mousedown', function (evt) {
     evt.preventDefault();
@@ -45,6 +44,7 @@
         window.form.removeDisabledForm();
         window.form.activateForm();
         window.form.activateMapFilters();
+        window.pin.filterPins();
         disableInputAddress();
       }
 
@@ -78,6 +78,7 @@
         window.form.removeDisabledForm();
         window.form.activateForm();
         window.form.activateMapFilters();
+        window.pin.filterPins();
         disableInputAddress();
       }
 
