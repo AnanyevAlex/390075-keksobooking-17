@@ -1,7 +1,5 @@
 'use strict';
 (function () {
-  var ADS_COUNT = 8;
-
   var getMapPinEl = function () {
     return document.querySelector('.map__pins');
   };
@@ -26,6 +24,18 @@
     return pinElement;
   };
 
+  var random = function (arr) {
+    var j;
+    var temp;
+    for (var i = arr.length - 1; i > 0; i--) {
+      j = Math.floor(Math.random() * (i + 1));
+      temp = arr[j];
+      arr[j] = arr[i];
+      arr[i] = temp;
+    }
+    return arr;
+  };
+
   var getTemplatePinEl = function () {
     var templatePinEl = document.querySelector('#pin')
     .content
@@ -34,13 +44,37 @@
     return templatePinEl;
   };
 
-  var drawPin = function (pin) {
-    var templatePinEl = getTemplatePinEl();
-    var mapPinEl = getMapPinEl();
-    var fragmentPin = document.createDocumentFragment();
+  // фильтр по пину
 
-    for (var k = 0; k < ADS_COUNT; k++) {
-      fragmentPin.appendChild(addPinInfo(pin[k], templatePinEl));
+  var filterPins = function () {
+    var filterOffer = document.querySelector('#housing-type');
+    var mapForPins = document.querySelector('.map__pins');
+    filterOffer.addEventListener('change', function () {
+      var buttonPin = document.querySelectorAll('.map__pin:not(.map__pin--main)');
+      buttonPin = Array.prototype.slice.call(buttonPin);
+      buttonPin.forEach(function (it) {
+        mapForPins.removeChild(it);
+      });
+      var arrFilterOffer = [];
+      arrFilterOffer = pinsArr.filter(function (it) {
+        return it.offer.type === filterOffer.value;
+      });
+      drawPins(arrFilterOffer);
+    });
+  };
+
+  var templatePinEl = getTemplatePinEl();
+  var mapPinEl = getMapPinEl();
+  var fragmentPin = document.createDocumentFragment();
+
+  var drawPins = function (pin) {
+    var adsCount = 5;
+    var randomPinArr = random(pin);
+    if (randomPinArr.length < adsCount) {
+      adsCount = randomPinArr.length;
+    }
+    for (var k = 0; k < adsCount; k++) {
+      fragmentPin.appendChild(addPinInfo(randomPinArr[k], templatePinEl));
     }
     mapPinEl.appendChild(fragmentPin);
     return mapPinEl;
@@ -48,15 +82,17 @@
 
   var createErrorMessage = function (errorMessage) {
     var errorBlockEl = getErrorMessageEl();
-    var mapBlock = window.mapAction.mapBlockEl;
+    var mapBlock = window.mapForPinsction.mapBlockEl;
     var errorBlock = errorBlockEl.cloneNode(true);
     var errorMessageText = errorBlock.querySelector('.error__message');
     errorMessageText.textContent = errorMessage;
     mapBlock.appendChild(errorBlock);
   };
 
+  var pinsArr = [];
   var successHandler = function (pin) {
-    drawPin(pin);
+    drawPins(pin);
+    pinsArr = pin;
   };
 
   var errorHandler = function (errorMessage) {
@@ -69,5 +105,6 @@
 
   window.pin = {
     loadPinsData: loadPinsData,
+    filterPins: filterPins
   };
 })();
