@@ -24,7 +24,7 @@
     return pinElement;
   };
 
-  var random = function (arr) {
+  var shuffle = function (arr) {
     var j;
     var temp;
     for (var i = arr.length - 1; i > 0; i--) {
@@ -44,55 +44,61 @@
     return templatePinEl;
   };
 
-  // фильтр по пину
+  var removeButtonPins = function () {
+    var buttonPinsEl = document.querySelectorAll('.map__pin:not(.map__pin--main)');
+
+    buttonPinsEl.forEach(function (it) {
+      mapPinsEl.removeChild(it);
+    });
+  };
+
+  var housingTypeEl = document.querySelector('#housing-type');
+  var mapPinsEl = document.querySelector('.map__pins');
 
   var filterPins = function () {
-    var filterOffer = document.querySelector('#housing-type');
-    var mapForPins = document.querySelector('.map__pins');
-    filterOffer.addEventListener('change', function () {
-      var buttonPin = document.querySelectorAll('.map__pin:not(.map__pin--main)');
-      buttonPin = Array.prototype.slice.call(buttonPin);
-      buttonPin.forEach(function (it) {
-        mapForPins.removeChild(it);
+    housingTypeEl.addEventListener('change', function () {
+      removeButtonPins();
+      var adsFilterOffer = [];
+      adsFilterOffer = adsArr.filter(function (it) {
+        return it.offer.type === housingTypeEl.value;
       });
-      var arrFilterOffer = [];
-      arrFilterOffer = pinsArr.filter(function (it) {
-        return it.offer.type === filterOffer.value;
-      });
-      drawPins(arrFilterOffer);
+      drawPins(adsFilterOffer);
     });
   };
 
   var templatePinEl = getTemplatePinEl();
-  var mapPinEl = getMapPinEl();
-  var fragmentPin = document.createDocumentFragment();
 
-  var drawPins = function (pin) {
-    var adsCount = 5;
-    var randomPinArr = random(pin);
-    if (randomPinArr.length < adsCount) {
-      adsCount = randomPinArr.length;
+  var createFragmentPin = function (ads) {
+    var fragmentPin = document.createDocumentFragment();
+    var shuffledAds = shuffle(ads);
+    var shuffledAdsSlice = shuffledAds.slice(0, 5);
+    for (var k = 0; k < shuffledAdsSlice.length; k++) {
+      fragmentPin.appendChild(addPinInfo(shuffledAds[k], templatePinEl));
     }
-    for (var k = 0; k < adsCount; k++) {
-      fragmentPin.appendChild(addPinInfo(randomPinArr[k], templatePinEl));
-    }
+    return fragmentPin;
+  };
+
+  var drawPins = function (ads) {
+    var mapPinEl = getMapPinEl();
+    var fragmentPin = createFragmentPin(ads);
+
     mapPinEl.appendChild(fragmentPin);
     return mapPinEl;
   };
 
   var createErrorMessage = function (errorMessage) {
     var errorBlockEl = getErrorMessageEl();
-    var mapBlock = window.mapForPinsction.mapBlockEl;
+    var mapBlock = window.mapForAction.mapBlockEl;
     var errorBlock = errorBlockEl.cloneNode(true);
     var errorMessageText = errorBlock.querySelector('.error__message');
     errorMessageText.textContent = errorMessage;
     mapBlock.appendChild(errorBlock);
   };
 
-  var pinsArr = [];
-  var successHandler = function (pin) {
-    drawPins(pin);
-    pinsArr = pin;
+  var adsArr = [];
+  var successHandler = function (ads) {
+    drawPins(ads);
+    adsArr = ads;
   };
 
   var errorHandler = function (errorMessage) {
