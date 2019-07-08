@@ -1,5 +1,9 @@
 'use strict';
 (function () {
+  var ADS_MAX_COUNT = 5;
+  var housingTypeEl = document.querySelector('#housing-type');
+  var mapPinsEl = document.querySelector('.map__pins');
+
   var getMapPinEl = function () {
     return document.querySelector('.map__pins');
   };
@@ -44,36 +48,37 @@
     return templatePinEl;
   };
 
-  var removeButtonPins = function () {
     var buttonPinsEl = document.querySelectorAll('.map__pin:not(.map__pin--main)');
+  var removePins = function () {
 
     buttonPinsEl.forEach(function (it) {
       mapPinsEl.removeChild(it);
     });
   };
 
-  var housingTypeEl = document.querySelector('#housing-type');
-  var mapPinsEl = document.querySelector('.map__pins');
-
   var filterPins = function () {
     housingTypeEl.addEventListener('change', function () {
-      removeButtonPins();
-      var adsFilterOffer = [];
-      adsFilterOffer = adsArr.filter(function (it) {
+      removePins();
+      var filteredAdsByType = [];
+      filteredAdsByType = adsArr.filter(function (it) {
         return it.offer.type === housingTypeEl.value;
       });
-      drawPins(adsFilterOffer);
+      drawPins(filteredAdsByType);
     });
   };
 
-  var templatePinEl = getTemplatePinEl();
+  var filterAds = function (ads) {
+    var shuffledAds = shuffle(ads);
+    var shuffledAdsSlice = shuffledAds.slice(0, ADS_MAX_COUNT);
+    return shuffledAdsSlice
+
+  }
 
   var createFragmentPin = function (ads) {
     var fragmentPin = document.createDocumentFragment();
-    var shuffledAds = shuffle(ads);
-    var shuffledAdsSlice = shuffledAds.slice(0, 5);
+    var shuffledAdsSlice = filterAds(ads);
     for (var k = 0; k < shuffledAdsSlice.length; k++) {
-      fragmentPin.appendChild(addPinInfo(shuffledAds[k], templatePinEl));
+      fragmentPin.appendChild(addPinInfo(shuffledAdsSlice[k], getTemplatePinEl()));
     }
     return fragmentPin;
   };
@@ -86,9 +91,30 @@
     return mapPinEl;
   };
 
+  // var onPinClick = function (evt) {
+  //   var element = evt.target;
+  //   console.log('1')
+  //   if (!element.classList.contains('map__pin')) {
+  //     element = element.parentElement;
+  //   }
+  //   if (element.classList.contains('map__pin') && !element.classList.contains('map__pin--main')) {
+  //     console.log('2')
+  //     showCard(window.backend.adList[parseInt(element.dataset.index, 10)]);
+  //   }
+  // };
+
+  // console.log(onPinClick())
+
+  //   buttonPinsEl.addEventListener('clic', function () {
+  //     console.log('123')
+  //     console.log(buttonPinsEl.dataset.index)
+  //   });
+
+  // console.log(onPinClick())
+
   var createErrorMessage = function (errorMessage) {
     var errorBlockEl = getErrorMessageEl();
-    var mapBlock = window.mapForAction.mapBlockEl;
+    var mapBlock = window.mapAction.mapBlockEl;
     var errorBlock = errorBlockEl.cloneNode(true);
     var errorMessageText = errorBlock.querySelector('.error__message');
     errorMessageText.textContent = errorMessage;
@@ -108,6 +134,10 @@
   var loadPinsData = function () {
     window.load.loadPinsData(successHandler, errorHandler);
   };
+
+  // var showAdsInfo = function () {
+  //   window.card.drawCard();
+  // }
 
   window.pin = {
     loadPinsData: loadPinsData,
