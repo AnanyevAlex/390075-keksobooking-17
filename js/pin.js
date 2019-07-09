@@ -4,10 +4,6 @@
   var housingTypeEl = document.querySelector('#housing-type');
   var mapPinsEl = document.querySelector('.map__pins');
 
-  var getMapPinEl = function () {
-    return document.querySelector('.map__pins');
-  };
-
   var getErrorMessageEl = function () {
     var errorMessageEl = document.querySelector('#error')
     .content
@@ -48,9 +44,9 @@
     return templatePinEl;
   };
 
-    var buttonPinsEl = document.querySelectorAll('.map__pin:not(.map__pin--main)');
-  var removePins = function () {
 
+  var removePins = function () {
+    var buttonPinsEl = document.querySelectorAll('.map__pin:not(.map__pin--main)');
     buttonPinsEl.forEach(function (it) {
       mapPinsEl.removeChild(it);
     });
@@ -69,27 +65,32 @@
 
   var filterAds = function (ads) {
     var shuffledAds = shuffle(ads);
-    var shuffledAdsSlice = shuffledAds.slice(0, ADS_MAX_COUNT);
     return shuffledAdsSlice
 
   }
 
   var createFragmentPin = function (ads) {
     var fragmentPin = document.createDocumentFragment();
-    var shuffledAdsSlice = filterAds(ads);
-    for (var k = 0; k < shuffledAdsSlice.length; k++) {
-      fragmentPin.appendChild(addPinInfo(shuffledAdsSlice[k], getTemplatePinEl()));
+    var slicedPinsAds = ads.slice(0, ADS_MAX_COUNT);
+    for (var k = 0; k < slicedPinsAds.length; k++) {
+      fragmentPin.appendChild(addPinInfo(slicedPinsAds[k], getTemplatePinEl()));
     }
     return fragmentPin;
   };
 
   var drawPins = function (ads) {
-    var mapPinEl = getMapPinEl();
+    var mapPinEl = document.querySelector('.map__pins');
     var fragmentPin = createFragmentPin(ads);
 
     mapPinEl.appendChild(fragmentPin);
     return mapPinEl;
   };
+
+  var mapPin
+
+  var onPinClick = function () {
+
+  }
 
   // var onPinClick = function (evt) {
   //   var element = evt.target;
@@ -123,8 +124,9 @@
 
   var adsArr = [];
   var successHandler = function (ads) {
-    drawPins(ads);
-    adsArr = ads;
+    adsArr = shuffle(ads);
+    drawPins(adsArr);
+    window.card.drawCard(adsArr);
   };
 
   var errorHandler = function (errorMessage) {
