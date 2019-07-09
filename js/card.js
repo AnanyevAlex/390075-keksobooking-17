@@ -15,6 +15,13 @@
     return CardEl;
   };
 
+  var removeFeatureList = function(cardElementFeatures, cardElement) {
+    console.log(cardElementFeatures)
+    cardElementFeatures.forEach(function (it) {
+      cardElement.removeChild(it);
+    });
+  }
+
   var addCardInfo = function (ad, template) {
     var cardElement = template.cloneNode(true);
     cardElement.querySelector('.popup__avatar').src = ad.author.avatar;
@@ -26,9 +33,10 @@
     cardElement.querySelector('.popup__text--time').textContent = 'Заезд после ' + ad.offer.checkin + ', выезд до: ' + ad.offer.checkout;
     cardElement.querySelector('.popup__description').textContent = ad.offer.description;
     var cardElementFeatures = cardElement.querySelectorAll('.popup__feature');
-    var adFeatures = ad.offer.features
-    console.log(cardElementFeatures);
-    console.log(adFeatures)
+    var adFeatures = ad.offer.features;
+    removeFeatureList(cardElementFeatures, cardElement);
+
+
     return cardElement;
   }
 
