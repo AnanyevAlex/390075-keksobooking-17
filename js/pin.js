@@ -63,12 +63,6 @@
     });
   };
 
-  var filterAds = function (ads) {
-    var shuffledAds = shuffle(ads);
-    return shuffledAdsSlice
-
-  }
-
   var createFragmentPin = function (ads) {
     var fragmentPin = document.createDocumentFragment();
     var slicedPinsAds = ads.slice(0, ADS_MAX_COUNT);
@@ -85,33 +79,6 @@
     mapPinEl.appendChild(fragmentPin);
     return mapPinEl;
   };
-
-  var mapPin
-
-  var onPinClick = function () {
-
-  }
-
-  // var onPinClick = function (evt) {
-  //   var element = evt.target;
-  //   console.log('1')
-  //   if (!element.classList.contains('map__pin')) {
-  //     element = element.parentElement;
-  //   }
-  //   if (element.classList.contains('map__pin') && !element.classList.contains('map__pin--main')) {
-  //     console.log('2')
-  //     showCard(window.backend.adList[parseInt(element.dataset.index, 10)]);
-  //   }
-  // };
-
-  // console.log(onPinClick())
-
-  //   buttonPinsEl.addEventListener('clic', function () {
-  //     console.log('123')
-  //     console.log(buttonPinsEl.dataset.index)
-  //   });
-
-  // console.log(onPinClick())
 
   var createErrorMessage = function (errorMessage) {
     var errorBlockEl = getErrorMessageEl();
@@ -136,10 +103,6 @@
   var loadPinsData = function () {
     window.load.loadPinsData(successHandler, errorHandler);
   };
-
-  // var showAdsInfo = function () {
-  //   window.card.drawCard();
-  // }
 
   window.pin = {
     loadPinsData: loadPinsData,
