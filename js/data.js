@@ -34,7 +34,6 @@
   var successHandler = function (ads) {
     adsArr = shuffle(ads);
     window.pin.drawPins(adsArr);
-    window.card.drawCard(adsArr);
     window.filter.getAdsArr(ads);
   };
 

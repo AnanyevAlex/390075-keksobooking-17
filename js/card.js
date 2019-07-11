@@ -7,6 +7,7 @@
     place: 'Дворец'
 
   };
+  var ESC_KEY_CODE = 27;
 
   var getTemplateCardEl = function () {
     var templateCardEl = document.querySelector('#card')
@@ -36,6 +37,11 @@
   };
 
   var addCardInfo = function (ad, template) {
+    var cardBlockEl = document.querySelector('.map__card');
+    if (cardBlockEl) {
+      cardBlockEl.remove();
+    }
+
     var cardElement = template.cloneNode(true);
     var popupFeaturesEl = cardElement.querySelector('.popup__features');
     var popupPhotoBlock = cardElement.querySelector('.popup__photos');
@@ -48,18 +54,26 @@
     cardElement.querySelector('.popup__text--capacity').textContent = ad.offer.rooms + ' комнаты для ' + ad.offer.guests + ' гостей';
     cardElement.querySelector('.popup__text--time').textContent = 'Заезд после ' + ad.offer.checkin + ', выезд до: ' + ad.offer.checkout;
     cardElement.querySelector('.popup__description').textContent = ad.offer.description;
-    // создаем список преимуществ
+
     createFeaturesList(popupFeaturesEl, ad);
-    // создаем список фоток
     createPhotoList(popupPhotoBlock, ad);
+
+    cardElement.querySelector('.popup__close').addEventListener('click', function () {
+      document.querySelector('.map__card').remove();
+    });
+
+    document.addEventListener('keydown', function (e) {
+      if (e.keyCode === ESC_KEY_CODE) {
+        document.querySelector('.map__card').remove();
+      }
+    });
 
     return cardElement;
   };
 
   var createFragmentElForCard = function (ads) {
     var fragmentCard = document.createDocumentFragment();
-    var firstAds = ads.shift();
-    fragmentCard.appendChild(addCardInfo(firstAds, getTemplateCardEl()));
+    fragmentCard.appendChild(addCardInfo(ads, getTemplateCardEl()));
     return fragmentCard;
   };
 
