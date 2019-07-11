@@ -40,11 +40,11 @@
       moveEvt.preventDefault();
       if (mapBlockEl.classList.contains('map--faded')) {
         removeMapFaded();
-        window.pin.loadPinsData();
+        window.data.loadPinsData();
         window.form.removeDisabledForm();
         window.form.activateForm();
         window.form.activateMapFilters();
-        window.pin.filterPins();
+        window.filter.filterPins();
         disableInputAddress();
       }
 
@@ -74,11 +74,11 @@
       upEvt.preventDefault();
       if (mapBlockEl.classList.contains('map--faded')) {
         removeMapFaded();
-        window.pin.loadPinsData();
+        window.data.loadPinsData();
         window.form.removeDisabledForm();
         window.form.activateForm();
         window.form.activateMapFilters();
-        window.pin.filterPins();
+        window.filter.filterPins();
         disableInputAddress();
       }
 

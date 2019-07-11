@@ -9,15 +9,37 @@
   };
 
   var getTemplateCardEl = function () {
-    var CardEl = document.querySelector('#card')
+    var templateCardEl = document.querySelector('#card')
     .content
     .querySelector('.map__card');
 
-    return CardEl;
+    return templateCardEl;
+  };
+
+  var createFeaturesList = function (popupFeaturesEl, ad) {
+    popupFeaturesEl.innerHTML = '';
+    ad.offer.features.forEach(function (it) {
+      var li = document.createElement('li');
+      li.className = 'popup__feature popup__feature--' + it;
+      popupFeaturesEl.appendChild(li);
+    });
+  };
+
+  var createPhotoList = function (popupPhotoBlock, ad) {
+    var popupPhoto = popupPhotoBlock.querySelector('.popup__photo');
+    popupPhotoBlock.innerHTML = '';
+    ad.offer.photos.forEach(function (it) {
+      var photoClone = popupPhoto.cloneNode(true);
+      photoClone.setAttribute('src', it);
+      popupPhotoBlock.appendChild(photoClone);
+    });
   };
 
   var addCardInfo = function (ad, template) {
     var cardElement = template.cloneNode(true);
+    var popupFeaturesEl = cardElement.querySelector('.popup__features');
+    var popupPhotoBlock = cardElement.querySelector('.popup__photos');
+
     cardElement.querySelector('.popup__avatar').src = ad.author.avatar;
     cardElement.querySelector('.popup__title').textContent = ad.offer.title;
     cardElement.querySelector('.popup__text--address').textContent = ad.offer.address;
@@ -27,28 +49,14 @@
     cardElement.querySelector('.popup__text--time').textContent = 'Заезд после ' + ad.offer.checkin + ', выезд до: ' + ad.offer.checkout;
     cardElement.querySelector('.popup__description').textContent = ad.offer.description;
     // создаем список преимуществ
-    var popupFeaturesEl = cardElement.querySelector('.popup__features');
-    popupFeaturesEl.innerHTML = '';
-    ad.offer.features.forEach(function (it) {
-      var li = document.createElement('li');
-      li.className = 'popup__feature popup__feature--' + it;
-      popupFeaturesEl.appendChild(li);
-    });
+    createFeaturesList(popupFeaturesEl, ad);
     // создаем список фоток
+    createPhotoList(popupPhotoBlock, ad);
 
-    var popupPhotoBlock = cardElement.querySelector('.popup__photos');
-    var popupPhoto = cardElement.querySelector('.popup__photo');
-    popupPhotoBlock.innerHTML = '';
-
-    ad.offer.photos.forEach(function (it) {
-      var photoClone = popupPhoto.cloneNode(true);
-      photoClone.setAttribute('src', it);
-      popupPhotoBlock.appendChild(photoClone);
-    });
     return cardElement;
   };
 
-  var createFragmentCard = function (ads) {
+  var createFragmentElForCard = function (ads) {
     var fragmentCard = document.createDocumentFragment();
     var firstAds = ads.shift();
     fragmentCard.appendChild(addCardInfo(firstAds, getTemplateCardEl()));
@@ -57,7 +65,7 @@
 
   var drawCard = function (ads) {
     var mapBlockEl = window.mapAction.mapBlockEl;
-    var fragmentCard = createFragmentCard(ads);
+    var fragmentCard = createFragmentElForCard(ads);
 
     mapBlockEl.appendChild(fragmentCard);
     return mapBlockEl;
