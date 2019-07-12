@@ -1,11 +1,7 @@
 'use strict';
 (function () {
   var MIN_PRICE_OF_TYPE_OFFER = {bungalo: 0, flat: 1000, house: 5000, palace: 10000};
-
-  var getAdFormEl = function () {
-    var adFormEl = document.querySelector('.ad-form');
-    return adFormEl;
-  };
+  var adFormEl = document.querySelector('.ad-form');
 
   var getMapFiltersEl = function () {
     var mapFiltersEl = document.querySelector('.map__filters');
@@ -43,8 +39,8 @@
     }
   };
 
+
   var removeDisabledForm = function () {
-    var adFormEl = getAdFormEl();
 
     adFormEl.classList.remove('ad-form--disabled');
   };
@@ -74,6 +70,17 @@
       relatedTimeSelectField.value = evt.target.value;
     });
   };
+
+  var adFormSubmitBtn = document.querySelector('.ad-form__submit');
+  adFormSubmitBtn.addEventListener('click', function () {
+        var filterRoom = document.querySelector('#room_number');
+        var filterQuests = document.querySelector('#capacity');
+
+        if (filterRoom.value < filterQuests.value) {
+          filterRoom.setCustomValidity('Увеличьте количество комнат!');
+          filterQuests.setCustomValidity('Увеличьте количество комнат!');
+        }
+      });
 
   addTimeChangeHandler(getTimeInEl(), getTimeOutEl());
   addTimeChangeHandler(getTimeOutEl(), getTimeInEl());
