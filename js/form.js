@@ -1,10 +1,16 @@
 'use strict';
 (function () {
   var MIN_PRICE_OF_TYPE_OFFER = {bungalo: 0, flat: 1000, house: 5000, palace: 10000};
+  var adFormEl = document.querySelector('.ad-form');
+  var selectRoomNumberEl = document.querySelector('#room_number');
+  var selectNumberGuestEl = document.querySelector('#capacity');
+  var adFormSubmitBtn = document.querySelector('.ad-form__submit');
 
-  var getAdFormEl = function () {
-    var adFormEl = document.querySelector('.ad-form');
-    return adFormEl;
+  var MESSAGE_ERROR_GUEST = {
+    1: 'Максимальное количество гостей 1',
+    2: 'Максимальное количество гостей 2',
+    3: 'Максимальное количество гостей 3',
+    100: 'Допустимое значение "не для гостей"',
   };
 
   var getMapFiltersEl = function () {
@@ -43,8 +49,8 @@
     }
   };
 
+
   var removeDisabledForm = function () {
-    var adFormEl = getAdFormEl();
 
     adFormEl.classList.remove('ad-form--disabled');
   };
@@ -74,6 +80,39 @@
       relatedTimeSelectField.value = evt.target.value;
     });
   };
+
+  var messageOfGuestNumbers = function (roomsValue) {
+    var message = MESSAGE_ERROR_GUEST[roomsValue];
+    return message;
+  };
+
+  var getErrorInputGuest = function (num) {
+    selectNumberGuestEl.setCustomValidity(messageOfGuestNumbers(num));
+  };
+
+  var getValidatedInputGuest = function () {
+    selectNumberGuestEl.setCustomValidity('');
+  };
+
+  var checkSelectNumberGuestEl = function (roomValue) {
+    var guestValue = Number(selectNumberGuestEl.value);
+    if (guestValue === 0 && roomValue !== 100) {
+      getErrorInputGuest(roomValue);
+    } else if (roomValue === 100 && guestValue !== 0) {
+      getErrorInputGuest(roomValue);
+    } else if (guestValue > roomValue) {
+      getErrorInputGuest(roomValue);
+    } else {
+      getValidatedInputGuest();
+    }
+  };
+
+  var validateInputGuest = function () {
+    checkSelectNumberGuestEl(Number(selectRoomNumberEl.value));
+  };
+
+  selectNumberGuestEl.addEventListener('change', validateInputGuest);
+  adFormSubmitBtn.addEventListener('click', validateInputGuest);
 
   addTimeChangeHandler(getTimeInEl(), getTimeOutEl());
   addTimeChangeHandler(getTimeOutEl(), getTimeInEl());
