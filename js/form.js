@@ -98,6 +98,8 @@
     var guestValue = Number(selectNumberGuestEl.value);
     if (guestValue === 0 && roomValue !== 100) {
       getErrorInputGuest(roomValue);
+    } else if (roomValue === 100 && guestValue !== 0) {
+      getErrorInputGuest(roomValue);
     } else if (guestValue > roomValue) {
       getErrorInputGuest(roomValue);
     } else {
