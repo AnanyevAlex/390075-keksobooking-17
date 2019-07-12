@@ -73,14 +73,32 @@
 
   var adFormSubmitBtn = document.querySelector('.ad-form__submit');
   adFormSubmitBtn.addEventListener('click', function () {
-        var filterRoom = document.querySelector('#room_number');
-        var filterQuests = document.querySelector('#capacity');
+        var filterRoomSelectEl = document.querySelector('#room_number');
+        var filterGuestSelectEl = document.querySelector('#capacity');
 
-        if (filterRoom.value < filterQuests.value) {
-          filterRoom.setCustomValidity('Увеличьте количество комнат!');
-          filterQuests.setCustomValidity('Увеличьте количество комнат!');
+       if (filterRoomSelectEl.value < filterGuestSelectEl.value) {
+          filterRoomSelectEl.setCustomValidity('Увеличьте количество комнат!');
+          filterGuestSelectEl.setCustomValidity('Увеличьте количество комнат!');
         }
       });
+
+
+
+  var filterRoomSelectEl = document.querySelector('#room_number');
+  var filterGuestSelectEl = document.querySelector('#capacity');
+
+  filterRoomSelectEl.addEventListener('change', function() {
+
+
+    if (filterRoomSelectEl.value < filterGuestSelectEl.value) {
+      console.log('Комнат ' + filterRoomSelectEl.value);
+      console.log('гостей ' + filterGuestSelectEl.value);
+      filterRoomSelectEl.setCustomValidity('Увеличьте количество комнат!');
+      filterGuestSelectEl.setCustomValidity('Увеличьте количество комнат!');
+    }
+  })
+
+
 
   addTimeChangeHandler(getTimeInEl(), getTimeOutEl());
   addTimeChangeHandler(getTimeOutEl(), getTimeInEl());
