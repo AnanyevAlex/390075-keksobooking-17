@@ -2,6 +2,16 @@
 (function () {
   var MIN_PRICE_OF_TYPE_OFFER = {bungalo: 0, flat: 1000, house: 5000, palace: 10000};
   var adFormEl = document.querySelector('.ad-form');
+  var selectRoomNumberEl = document.querySelector('#room_number');
+  var selectNumberGuestEl = document.querySelector('#capacity');
+  var adFormSubmitBtn = document.querySelector('.ad-form__submit');
+
+  var MESSAGE_ERROR_GUEST = {
+    1: 'Максимальное количество гостей 1',
+    2: 'Максимальное количество гостей 2',
+    3: 'Максимальное количество гостей 3',
+    100: 'Допустимое значение "не для гостей"',
+  };
 
   var getMapFiltersEl = function () {
     var mapFiltersEl = document.querySelector('.map__filters');
@@ -71,34 +81,36 @@
     });
   };
 
-  var adFormSubmitBtn = document.querySelector('.ad-form__submit');
-  adFormSubmitBtn.addEventListener('click', function () {
-        var filterRoomSelectEl = document.querySelector('#room_number');
-        var filterGuestSelectEl = document.querySelector('#capacity');
+  var messageOfGuestNumbers = function (roomsValue) {
+    var message = MESSAGE_ERROR_GUEST[roomsValue];
+    return message;
+  };
 
-       if (filterRoomSelectEl.value < filterGuestSelectEl.value) {
-          filterRoomSelectEl.setCustomValidity('Увеличьте количество комнат!');
-          filterGuestSelectEl.setCustomValidity('Увеличьте количество комнат!');
-        }
-      });
+  var getErrorInputGuest = function (num) {
+    selectNumberGuestEl.setCustomValidity(messageOfGuestNumbers(num));
+  };
 
+  var getValidatedInputGuest = function () {
+    selectNumberGuestEl.setCustomValidity('');
+  };
 
-
-  var filterRoomSelectEl = document.querySelector('#room_number');
-  var filterGuestSelectEl = document.querySelector('#capacity');
-
-  filterRoomSelectEl.addEventListener('change', function() {
-
-
-    if (filterRoomSelectEl.value < filterGuestSelectEl.value) {
-      console.log('Комнат ' + filterRoomSelectEl.value);
-      console.log('гостей ' + filterGuestSelectEl.value);
-      filterRoomSelectEl.setCustomValidity('Увеличьте количество комнат!');
-      filterGuestSelectEl.setCustomValidity('Увеличьте количество комнат!');
+  var checkSelectNumberGuestEl = function (roomValue) {
+    var guestValue = Number(selectNumberGuestEl.value);
+    if (guestValue === 0 && roomValue !== 100) {
+      getErrorInputGuest(roomValue);
+    } else if (guestValue > roomValue) {
+      getErrorInputGuest(roomValue);
+    } else {
+      getValidatedInputGuest();
     }
-  })
+  };
 
+  var validateInputGuest = function () {
+    checkSelectNumberGuestEl(Number(selectRoomNumberEl.value));
+  };
 
+  selectNumberGuestEl.addEventListener('change', validateInputGuest);
+  adFormSubmitBtn.addEventListener('click', validateInputGuest);
 
   addTimeChangeHandler(getTimeInEl(), getTimeOutEl());
   addTimeChangeHandler(getTimeOutEl(), getTimeInEl());
