@@ -6,7 +6,7 @@
   var selectNumberGuestEl = document.querySelector('#capacity');
   var adFormSubmitBtn = document.querySelector('.ad-form__submit');
 
-  var MESSAGE_ERROR_GUEST = {
+  var MessageErrorGuest = {
     1: 'Максимальное количество гостей 1',
     2: 'Максимальное количество гостей 2',
     3: 'Максимальное количество гостей 3',
@@ -82,7 +82,7 @@
   };
 
   var messageOfGuestNumbers = function (roomsValue) {
-    var message = MESSAGE_ERROR_GUEST[roomsValue];
+    var message = MessageErrorGuest[roomsValue];
     return message;
   };
 

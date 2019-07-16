@@ -1,6 +1,5 @@
 'use strict';
 (function () {
-
   var getErrorMessageEl = function () {
     var errorMessageEl = document.querySelector('#error')
     .content

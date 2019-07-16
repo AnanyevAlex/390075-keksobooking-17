@@ -18,12 +18,17 @@
   var filterPins = function () {
     housingTypeEl.addEventListener('change', function () {
       removePins();
-      var filteredAdsByType = [];
-      filteredAdsByType = adsArr.filter(function (it) {
-        return it.offer.type === housingTypeEl.value;
-      });
-      window.pin.drawPins(filteredAdsByType);
+      if (housingTypeEl.value === 'any') {
+        window.pin.drawPins(adsArr);
+      } else {
+        var filteredAdsByType = [];
+        filteredAdsByType = adsArr.filter(function (it) {
+          return it.offer.type === housingTypeEl.value;
+        });
+        window.pin.drawPins(filteredAdsByType);
+      }
     });
+
   };
 
   window.filter = {
