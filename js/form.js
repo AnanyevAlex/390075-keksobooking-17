@@ -1,5 +1,11 @@
 'use strict';
 (function () {
+  var VALID_GUEST_COUNT = {
+    1: [1],
+    2: [1, 2],
+    3: [1, 2, 3],
+    100: [0],
+  }
   var adFormEl = document.querySelector('.ad-form');
   var selectRoomNumberEl = document.querySelector('#room_number');
   var selectNumberGuestEl = document.querySelector('#capacity');
@@ -90,9 +96,24 @@
     element.setCustomValidity(message);
   };
 
+  var checkValue = function (number, guestCount) {
+    return number === guestCount;
+  }
+
+  var isValidGuestCount = function (roomCount, guestCount) {
+    debugger
+    var test = VALID_GUEST_COUNT[roomCount];
+
+    console.log(test.some(checkValue(test, guestCount)))
+    return test;
+  }
+
+
+
   var checkSelectNumberGuestEl = function (roomValue) {
     var guestValue = Number(selectNumberGuestEl.value);
-    if (guestValue === 0 && roomValue !== 100) {
+    console.log(isValidGuestCount(roomValue, guestValue))
+    /*if (guestValue === 0 && roomValue !== 100) {
       setCustomValidityMessage(selectNumberGuestEl, MessageErrorGuest[roomValue])
     } else if (roomValue === 100 && guestValue !== 0) {
       setCustomValidityMessage(selectNumberGuestEl, MessageErrorGuest[roomValue])
@@ -100,7 +121,7 @@
       setCustomValidityMessage(selectNumberGuestEl, MessageErrorGuest[roomValue])
     } else {
       setCustomValidityMessage(selectNumberGuestEl, '');
-    }
+    }*/
   };
 
   var validateInputGuest = function () {
