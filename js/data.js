@@ -1,13 +1,5 @@
 'use strict';
 (function () {
-  var getErrorMessageEl = function () {
-    var errorMessageEl = document.querySelector('#error')
-    .content
-    .querySelector('.error');
-
-    return errorMessageEl;
-  };
-
   var shuffle = function (arr) {
     var j;
     var temp;
@@ -20,31 +12,31 @@
     return arr;
   };
 
-  var createErrorMessage = function (errorMessage) {
-    var errorBlockEl = getErrorMessageEl();
-    var mapBlock = window.mapAction.mapBlockEl;
+  var showErrorMessage = function (errorMessage) {
+    var errorBlockEl = document.querySelector('#error').content.querySelector('.error');
+    var mapBlockEl = window.mapAction.mapBlockEl;
     var errorBlock = errorBlockEl.cloneNode(true);
     var errorMessageText = errorBlock.querySelector('.error__message');
     errorMessageText.textContent = errorMessage;
-    mapBlock.appendChild(errorBlock);
+    mapBlockEl.appendChild(errorBlock);
   };
 
   var adsArr = [];
   var successHandler = function (ads) {
     adsArr = shuffle(ads);
     window.pin.drawPins(adsArr);
-    window.filter.getAdsArr(ads);
+    window.filter.setAdsArr(ads);
   };
 
   var errorHandler = function (errorMessage) {
-    createErrorMessage(errorMessage);
+    showErrorMessage(errorMessage);
   };
 
-  var loadPinsData = function () {
-    window.load.loadPinsData(successHandler, errorHandler);
+  var loadData = function () {
+    window.load.loadData(successHandler, errorHandler);
   };
 
   window.data = {
-    loadPinsData: loadPinsData,
+    loadData: loadData,
   };
 })();

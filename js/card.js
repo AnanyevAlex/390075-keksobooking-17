@@ -6,17 +6,8 @@
     bungalo: 'Бунгало',
     house: 'Дом',
     place: 'Дворец'
-
   };
-
-
-  var getTemplateCardEl = function () {
-    var templateCardEl = document.querySelector('#card')
-    .content
-    .querySelector('.map__card');
-
-    return templateCardEl;
-  };
+  var templateCardEl = document.querySelector('#card').content.querySelector('.map__card');
 
   var createFeaturesList = function (popupFeaturesEl, ad) {
     popupFeaturesEl.innerHTML = '';
@@ -27,20 +18,20 @@
     });
   };
 
-  var createPhotoList = function (popupPhotoBlock, ad) {
-    var popupPhoto = popupPhotoBlock.querySelector('.popup__photo');
-    popupPhotoBlock.innerHTML = '';
+  var createPhotoList = function (popupPhotoEl, ad) {
+    var popupPhoto = popupPhotoEl.querySelector('.popup__photo');
+    popupPhotoEl.innerHTML = '';
     ad.offer.photos.forEach(function (it) {
       var photoClone = popupPhoto.cloneNode(true);
       photoClone.setAttribute('src', it);
-      popupPhotoBlock.appendChild(photoClone);
+      popupPhotoEl.appendChild(photoClone);
     });
   };
 
-  var onEscKeydown = function (e) {
+  var escKeydownHandler = function (e) {
     if (e.keyCode === ESC_KEY_CODE) {
       document.querySelector('.map__card').remove();
-      document.removeEventListener('keydown', onEscKeydown);
+      document.removeEventListener('keydown', escKeydownHandler);
     }
   };
 
@@ -52,7 +43,7 @@
 
     var cardElement = template.cloneNode(true);
     var popupFeaturesEl = cardElement.querySelector('.popup__features');
-    var popupPhotoBlock = cardElement.querySelector('.popup__photos');
+    var popupPhotoEl = cardElement.querySelector('.popup__photos');
 
     cardElement.querySelector('.popup__avatar').src = ad.author.avatar;
     cardElement.querySelector('.popup__title').textContent = ad.offer.title;
@@ -64,20 +55,20 @@
     cardElement.querySelector('.popup__description').textContent = ad.offer.description;
 
     createFeaturesList(popupFeaturesEl, ad);
-    createPhotoList(popupPhotoBlock, ad);
+    createPhotoList(popupPhotoEl, ad);
 
     cardElement.querySelector('.popup__close').addEventListener('click', function () {
       document.querySelector('.map__card').remove();
     });
 
-    document.addEventListener('keydown', onEscKeydown);
+    document.addEventListener('keydown', escKeydownHandler);
 
     return cardElement;
   };
 
   var createFragmentElForCard = function (ads) {
     var fragmentCard = document.createDocumentFragment();
-    fragmentCard.appendChild(addCardInfo(ads, getTemplateCardEl()));
+    fragmentCard.appendChild(addCardInfo(ads, templateCardEl));
     return fragmentCard;
   };
 
@@ -92,5 +83,4 @@
   window.card = {
     drawCard: drawCard,
   };
-
 })();

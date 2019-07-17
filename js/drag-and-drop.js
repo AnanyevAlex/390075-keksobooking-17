@@ -6,12 +6,7 @@
   var MAP_Y_MIN_VALUE = 130;
   var MAP_X_MAX_VALUE = 1200;
   var MAP_X_MIN_VALUE = 0;
-
-  var getMainMapPinEl = function () {
-    return document.querySelector('.map__pin--main');
-  };
-
-  var mainMapPinEl = getMainMapPinEl();
+  var mainMapPinEl = document.querySelector('.map__pin--main');
 
   var removeMapFaded = function () {
     mapBlockEl.classList.remove('map--faded');
@@ -36,14 +31,12 @@
       y: evt.clientY
     };
 
-    var onMouseMove = function (moveEvt) {
+    var mouseMoveHandler = function (moveEvt) {
       moveEvt.preventDefault();
       if (mapBlockEl.classList.contains('map--faded')) {
         removeMapFaded();
-        window.data.loadPinsData();
-        window.form.removeDisabledForm();
-        window.form.activateForm();
-        window.form.activateMapFilters();
+        window.data.loadData();
+        window.form.initializationMap();
         window.filter.filterPins();
         disableInputAddress();
       }
@@ -70,23 +63,21 @@
       inputAddressEl.value = posX + ', ' + posY;
     };
 
-    var onMouseUp = function (upEvt) {
+    var mouseUpHandler = function (upEvt) {
       upEvt.preventDefault();
       if (mapBlockEl.classList.contains('map--faded')) {
         removeMapFaded();
-        window.data.loadPinsData();
-        window.form.removeDisabledForm();
-        window.form.activateForm();
-        window.form.activateMapFilters();
+        window.data.loadData();
+        window.form.initializationMap();
         window.filter.filterPins();
         disableInputAddress();
       }
 
-      mapBlockEl.removeEventListener('mousemove', onMouseMove);
-      document.removeEventListener('mouseup', onMouseUp);
+      mapBlockEl.removeEventListener('mousemove', mouseMoveHandler);
+      document.removeEventListener('mouseup', mouseUpHandler);
     };
 
-    mapBlockEl.addEventListener('mousemove', onMouseMove);
-    document.addEventListener('mouseup', onMouseUp);
+    mapBlockEl.addEventListener('mousemove', mouseMoveHandler);
+    document.addEventListener('mouseup', mouseUpHandler);
   });
 })();
