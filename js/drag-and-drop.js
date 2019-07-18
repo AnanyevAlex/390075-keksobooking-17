@@ -18,7 +18,7 @@
 
   var disableInputAddress = function () {
     var inputAddressEl = getInputAddressEl();
-    inputAddressEl.setAttribute('disabled', 'disabled');
+    inputAddressEl.setAttribute("readonly", "readonly");
   };
 
   var mapBlockEl = window.mapAction.mapBlockEl;

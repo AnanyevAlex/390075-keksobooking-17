@@ -33,7 +33,7 @@
   };
 
   var loadData = function () {
-    window.load.loadData(successHandler, errorHandler);
+    window.load.loadData(successHandler, window.successForm.errorHandler);
   };
 
   window.data = {

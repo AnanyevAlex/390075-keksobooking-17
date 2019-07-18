@@ -96,32 +96,18 @@
     element.setCustomValidity(message);
   };
 
-  var checkValue = function (number, guestCount) {
-    return number === guestCount;
-  }
-
   var isValidGuestCount = function (roomCount, guestCount) {
-    debugger
-    var test = VALID_GUEST_COUNT[roomCount];
-
-    console.log(test.some(checkValue(test, guestCount)))
-    return test;
+    return VALID_GUEST_COUNT[roomCount].some(function(item){return item === guestCount});
   }
-
-
 
   var checkSelectNumberGuestEl = function (roomValue) {
     var guestValue = Number(selectNumberGuestEl.value);
     console.log(isValidGuestCount(roomValue, guestValue))
-    /*if (guestValue === 0 && roomValue !== 100) {
-      setCustomValidityMessage(selectNumberGuestEl, MessageErrorGuest[roomValue])
-    } else if (roomValue === 100 && guestValue !== 0) {
-      setCustomValidityMessage(selectNumberGuestEl, MessageErrorGuest[roomValue])
-    } else if (guestValue > roomValue) {
-      setCustomValidityMessage(selectNumberGuestEl, MessageErrorGuest[roomValue])
-    } else {
+    if (isValidGuestCount(roomValue, guestValue)) {
       setCustomValidityMessage(selectNumberGuestEl, '');
-    }*/
+    } else {
+      setCustomValidityMessage(selectNumberGuestEl, MessageErrorGuest[roomValue])
+    }
   };
 
   var validateInputGuest = function () {
@@ -141,6 +127,16 @@
     activateForm();
     activateMapFilters();
   }
+
+  var errorHandler = function (errorMessage) {
+    showErrorMessage(errorMessage);
+  };
+
+  adFormEl.addEventListener('submit', function (evt) {
+    evt.preventDefault();
+    debugger
+    window.load.sendData(new FormData(adFormEl), window.successForm.successHandler, errorHandler);
+  });
 
   window.form = {
     initializationMap: initializationMap,
