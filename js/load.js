@@ -1,7 +1,7 @@
 'use strict';
 (function () {
   var RESPONSE_TYPE = 'json';
-  var LOAD_DATA_URL = 'https://js.dump.academy/keksobooking/1data';
+  var LOAD_DATA_URL = 'https://js.dump.academy/keksobooking/data';
   var SEND_DATA_URL = 'https://js.dump.academy/keksobooking';
   var METHOD_XHR_OPEN = 'GET';
   var CODE_REQUEST_OK = 200;
@@ -14,7 +14,6 @@
   };
 
   var loadData = function (successHandler, errorHandler) {
-    debugger
     var xhr = new XMLHttpRequest();
     xhr.responseType = RESPONSE_TYPE;
 

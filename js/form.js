@@ -138,6 +138,13 @@
     window.load.sendData(new FormData(adFormEl), window.successForm.successHandler, errorHandler);
   });
 
+  var resetFormButtonEl = adFormEl.querySelector('.ad-form__reset');
+    resetFormButtonEl.disabled = false;
+    var resetClickHandler = function () {
+      window.setActive(false);
+    };
+  resetFormButtonEl.addEventListener('click', resetClickHandler);
+
   window.form = {
     initializationMap: initializationMap,
     disableMapFilters: disableMapFilters,

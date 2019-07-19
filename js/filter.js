@@ -33,6 +33,7 @@
 
   window.filter = {
     filterPins: filterPins,
-    setAdsArr: setAdsArr
+    setAdsArr: setAdsArr,
+    removePins: removePins,
   };
 })();

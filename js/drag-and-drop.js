@@ -34,11 +34,13 @@
     var mouseMoveHandler = function (moveEvt) {
       moveEvt.preventDefault();
       if (mapBlockEl.classList.contains('map--faded')) {
-        removeMapFaded();
+        debugger
+        window.activatePage.activatePage(true);
+        /*removeMapFaded();
         window.data.loadData();
         window.form.initializationMap();
         window.filter.filterPins();
-        disableInputAddress();
+        disableInputAddress();*/
       }
 
       var shift = {
@@ -66,11 +68,12 @@
     var mouseUpHandler = function (upEvt) {
       upEvt.preventDefault();
       if (mapBlockEl.classList.contains('map--faded')) {
-        removeMapFaded();
+        window.activatePage.activatePage(true);
+        /*removeMapFaded();
         window.data.loadData();
         window.form.initializationMap();
         window.filter.filterPins();
-        disableInputAddress();
+        disableInputAddress();*/
       }
 
       mapBlockEl.removeEventListener('mousemove', mouseMoveHandler);

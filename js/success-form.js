@@ -1,7 +1,6 @@
 'use strict';
 
 (function () {
-  alert('21')
   var ESC_KEY_CODE = 27;
   var mainEl = document.querySelector('main');
   var escKeydownHandler = function (e) {
