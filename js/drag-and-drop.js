@@ -6,24 +6,10 @@
   var MAP_Y_MIN_VALUE = 130;
   var MAP_X_MAX_VALUE = 1200;
   var MAP_X_MIN_VALUE = 0;
-
-  var getMainMapPinEl = function () {
-    return document.querySelector('.map__pin--main');
-  };
-
-  var mainMapPinEl = getMainMapPinEl();
-
-  var removeMapFaded = function () {
-    mapBlockEl.classList.remove('map--faded');
-  };
+  var mainMapPinEl = document.querySelector('.map__pin--main');
 
   var getInputAddressEl = function () {
     return document.querySelector('#address');
-  };
-
-  var disableInputAddress = function () {
-    var inputAddressEl = getInputAddressEl();
-    inputAddressEl.setAttribute('disabled', 'disabled');
   };
 
   var mapBlockEl = window.mapAction.mapBlockEl;
@@ -36,16 +22,10 @@
       y: evt.clientY
     };
 
-    var onMouseMove = function (moveEvt) {
+    var mouseMoveHandler = function (moveEvt) {
       moveEvt.preventDefault();
       if (mapBlockEl.classList.contains('map--faded')) {
-        removeMapFaded();
-        window.data.loadPinsData();
-        window.form.removeDisabledForm();
-        window.form.activateForm();
-        window.form.activateMapFilters();
-        window.filter.filterPins();
-        disableInputAddress();
+        window.setActivePage.activatePage(true);
       }
 
       var shift = {
@@ -70,23 +50,17 @@
       inputAddressEl.value = posX + ', ' + posY;
     };
 
-    var onMouseUp = function (upEvt) {
+    var mouseUpHandler = function (upEvt) {
       upEvt.preventDefault();
       if (mapBlockEl.classList.contains('map--faded')) {
-        removeMapFaded();
-        window.data.loadPinsData();
-        window.form.removeDisabledForm();
-        window.form.activateForm();
-        window.form.activateMapFilters();
-        window.filter.filterPins();
-        disableInputAddress();
+        window.setActivePage.activatePage(true);
       }
 
-      mapBlockEl.removeEventListener('mousemove', onMouseMove);
-      document.removeEventListener('mouseup', onMouseUp);
+      mapBlockEl.removeEventListener('mousemove', mouseMoveHandler);
+      document.removeEventListener('mouseup', mouseUpHandler);
     };
 
-    mapBlockEl.addEventListener('mousemove', onMouseMove);
-    document.addEventListener('mouseup', onMouseUp);
+    mapBlockEl.addEventListener('mousemove', mouseMoveHandler);
+    document.addEventListener('mouseup', mouseUpHandler);
   });
 })();

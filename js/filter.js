@@ -4,7 +4,7 @@
   var mapPinsEl = document.querySelector('.map__pins');
   var adsArr = [];
 
-  var getAdsArr = function (ads) {
+  var setAdsArr = function (ads) {
     adsArr = ads;
   };
 
@@ -18,16 +18,21 @@
   var filterPins = function () {
     housingTypeEl.addEventListener('change', function () {
       removePins();
-      var filteredAdsByType = [];
-      filteredAdsByType = adsArr.filter(function (it) {
+      if (housingTypeEl.value === 'any') {
+        window.pin.drawPins(adsArr);
+      }
+
+      var filteredAdsByType = adsArr.filter(function (it) {
         return it.offer.type === housingTypeEl.value;
       });
       window.pin.drawPins(filteredAdsByType);
+
     });
   };
 
   window.filter = {
     filterPins: filterPins,
-    getAdsArr: getAdsArr
+    setAdsArr: setAdsArr,
+    removePins: removePins,
   };
 })();

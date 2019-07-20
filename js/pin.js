@@ -1,7 +1,7 @@
 'use strict';
 (function () {
   var ADS_MAX_COUNT = 5;
-  var mapPinEl = document.querySelector('.map__pins');
+  var mapPinsEl = document.querySelector('.map__pins');
 
   var addPinInfo = function (ad, template, index) {
     var pinElement = template.cloneNode(true);
@@ -17,11 +17,7 @@
   };
 
   var getTemplatePinEl = function () {
-    var templatePinEl = document.querySelector('#pin')
-    .content
-    .querySelector('.map__pin');
-
-    return templatePinEl;
+    return document.querySelector('#pin').content.querySelector('.map__pin');
   };
 
   var createFragmentPin = function (ads) {
@@ -37,21 +33,32 @@
   var drawPins = function (ads) {
     var fragmentPin = createFragmentPin(ads);
     adsInfo = ads;
-    mapPinEl.appendChild(fragmentPin);
-    return mapPinEl;
+    mapPinsEl.appendChild(fragmentPin);
+    return mapPinsEl;
   };
 
-  mapPinEl.onclick = function (event) {
-    var target = event.target;
+  var selectedPin;
 
-    while (target.classList.value !== 'map__pins') {
-      if (target.classList.value === 'map__pin') {
-        var pinIndex = target.getAttribute('data');
-        var adInfo = adsInfo[pinIndex];
-        window.card.drawCard(adInfo);
-      }
-      target = target.parentNode;
+  mapPinsEl.addEventListener('click', function (event) {
+    var target = event.target.closest('button');
+    if (!target) {
+      return;
     }
+
+    if (target.classList.value === 'map__pin') {
+      addClassTargetPin(target);
+      var pinIndex = target.getAttribute('data');
+      var adInfo = adsInfo[pinIndex];
+      window.card.drawCard(adInfo);
+    }
+  });
+
+  var addClassTargetPin = function (pin) {
+    if (selectedPin) {
+      selectedPin.classList.remove('map__pin--active');
+    }
+    selectedPin = pin;
+    selectedPin.classList.add('map__pin--active');
   };
 
   window.pin = {
