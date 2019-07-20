@@ -1,17 +1,9 @@
 'use strict';
-
 (function () {
   var ESC_KEY_CODE = 27;
   var mainEl = document.querySelector('main');
-  var escKeydownHandler = function (e) {
-      if (e.keyCode === ESC_KEY_CODE)  {
-        mainEl.removeChild(successElement);
-        document.removeEventListener('keydown', escKeydownHandler);
-      }
-    };
   // success
   var successHandler = function () {
-
     var successTemplate = document.querySelector('#success')
     .content
     .querySelector('.success');
@@ -19,7 +11,7 @@
     mainEl.insertAdjacentElement('afterbegin', successElement);
 
     var escKeydownHandler = function (e) {
-      if (e.keyCode === ESC_KEY_CODE)  {
+      if (e.keyCode === ESC_KEY_CODE) {
         mainEl.removeChild(successElement);
         document.removeEventListener('keydown', escKeydownHandler);
       }
@@ -32,11 +24,11 @@
     document.addEventListener('keydown', escKeydownHandler);
     successElement.addEventListener('click', areaClickHandler);
   };
-// error
+  // error
   var errorHandler = function (errorMessage) {
     var errorBlockTemplate = document.querySelector('#error').content.querySelector('.error');
     var errorBlockElement = errorBlockTemplate.cloneNode(true);
-    var error;
+
     mainEl.insertAdjacentElement('afterbegin', errorBlockElement);
     var errorMessageText = errorBlockElement.querySelector('.error__message');
     errorMessageText.textContent = errorMessage;
@@ -48,7 +40,7 @@
     };
 
     var escKeydownHandler = function (e) {
-      if (e.keyCode === ESC_KEY_CODE)  {
+      if (e.keyCode === ESC_KEY_CODE) {
         mainEl.removeChild(errorBlockElement);
         document.removeEventListener('keydown', escKeydownHandler);
       }
@@ -60,12 +52,11 @@
     };
     errorButtonEl.addEventListener('click', errorButtonClickHandler);
     document.addEventListener('keydown', escKeydownHandler);
-    errorBlock.addEventListener('click', areaClickHandler);
+    errorBlockElement.addEventListener('click', areaClickHandler);
   };
-
 
   window.successForm = {
     successHandler: successHandler,
     errorHandler: errorHandler,
-  }
+  };
 })();

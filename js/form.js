@@ -5,7 +5,7 @@
     2: [1, 2],
     3: [1, 2, 3],
     100: [0],
-  }
+  };
   var adFormEl = document.querySelector('.ad-form');
   var selectRoomNumberEl = document.querySelector('#room_number');
   var selectNumberGuestEl = document.querySelector('#capacity');
@@ -97,16 +97,17 @@
   };
 
   var isValidGuestCount = function (roomCount, guestCount) {
-    return VALID_GUEST_COUNT[roomCount].some(function(item){return item === guestCount});
-  }
+    return VALID_GUEST_COUNT[roomCount].some(function (item) {
+      return item === guestCount;
+    });
+  };
 
   var checkSelectNumberGuestEl = function (roomValue) {
     var guestValue = Number(selectNumberGuestEl.value);
-    console.log(isValidGuestCount(roomValue, guestValue))
     if (isValidGuestCount(roomValue, guestValue)) {
       setCustomValidityMessage(selectNumberGuestEl, '');
     } else {
-      setCustomValidityMessage(selectNumberGuestEl, MessageErrorGuest[roomValue])
+      setCustomValidityMessage(selectNumberGuestEl, MessageErrorGuest[roomValue]);
     }
   };
 
@@ -126,23 +127,20 @@
     removeDisabledForm();
     activateForm();
     activateMapFilters();
-  }
-
-  var errorHandler = function (errorMessage) {
-    showErrorMessage(errorMessage);
   };
 
   adFormEl.addEventListener('submit', function (evt) {
     evt.preventDefault();
-    debugger
-    window.load.sendData(new FormData(adFormEl), window.successForm.successHandler, errorHandler);
+    window.load.sendData(new FormData(adFormEl), window.successForm.successHandler, window.successForm.errorHandler);
+    window.setActivePage.activatePage(false);
   });
 
   var resetFormButtonEl = adFormEl.querySelector('.ad-form__reset');
-    resetFormButtonEl.disabled = false;
-    var resetClickHandler = function () {
-      window.setActive(false);
-    };
+  resetFormButtonEl.disabled = false;
+  var resetClickHandler = function () {
+
+    window.setActivePage.activatePage(false);
+  };
   resetFormButtonEl.addEventListener('click', resetClickHandler);
 
   window.form = {

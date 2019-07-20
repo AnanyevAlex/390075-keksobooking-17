@@ -28,7 +28,6 @@
       window.pin.drawPins(filteredAdsByType);
 
     });
-
   };
 
   window.filter = {

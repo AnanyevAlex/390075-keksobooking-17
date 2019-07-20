@@ -8,17 +8,8 @@
   var MAP_X_MIN_VALUE = 0;
   var mainMapPinEl = document.querySelector('.map__pin--main');
 
-  var removeMapFaded = function () {
-    mapBlockEl.classList.remove('map--faded');
-  };
-
   var getInputAddressEl = function () {
     return document.querySelector('#address');
-  };
-
-  var disableInputAddress = function () {
-    var inputAddressEl = getInputAddressEl();
-    inputAddressEl.setAttribute("readonly", "readonly");
   };
 
   var mapBlockEl = window.mapAction.mapBlockEl;
@@ -34,13 +25,7 @@
     var mouseMoveHandler = function (moveEvt) {
       moveEvt.preventDefault();
       if (mapBlockEl.classList.contains('map--faded')) {
-        debugger
-        window.activatePage.activatePage(true);
-        /*removeMapFaded();
-        window.data.loadData();
-        window.form.initializationMap();
-        window.filter.filterPins();
-        disableInputAddress();*/
+        window.setActivePage.activatePage(true);
       }
 
       var shift = {
@@ -68,12 +53,7 @@
     var mouseUpHandler = function (upEvt) {
       upEvt.preventDefault();
       if (mapBlockEl.classList.contains('map--faded')) {
-        window.activatePage.activatePage(true);
-        /*removeMapFaded();
-        window.data.loadData();
-        window.form.initializationMap();
-        window.filter.filterPins();
-        disableInputAddress();*/
+        window.setActivePage.activatePage(true);
       }
 
       mapBlockEl.removeEventListener('mousemove', mouseMoveHandler);

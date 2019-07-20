@@ -23,13 +23,13 @@
       if (xhr.status === CODE_REQUEST_OK) {
         successHandler(xhr.response);
       } else {
-      errorHandler(Errors[xhr.status]);
+        errorHandler(Errors[xhr.status]);
       }
     });
     xhr.send();
   };
 
-  var sendData = function(data, successHandler) {
+  var sendData = function (data, successHandler, errorHandler) {
     var xhr = new XMLHttpRequest();
     xhr.responseType = RESPONSE_TYPE;
 
@@ -37,12 +37,12 @@
       if (xhr.status === CODE_REQUEST_OK) {
         successHandler(xhr.response);
       } else {
-      errorHandler(Errors[xhr.status]);
+        errorHandler(Errors[xhr.status]);
       }
     });
     xhr.open('POST', SEND_DATA_URL);
     xhr.send(data);
-  }
+  };
 
   window.load = {
     loadData: loadData,

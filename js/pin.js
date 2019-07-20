@@ -39,25 +39,27 @@
 
   var selectedPin;
 
-  mapPinsEl.addEventListener('click', function(event){
+  mapPinsEl.addEventListener('click', function (event) {
     var target = event.target.closest('button');
-      if (!target) return;
+    if (!target) {
+      return;
+    }
 
-      if (target.classList.value === 'map__pin') {
-        addClassTargetPin(target);
-        var pinIndex = target.getAttribute('data');
-        var adInfo = adsInfo[pinIndex];
-        window.card.drawCard(adInfo);
-      }
+    if (target.classList.value === 'map__pin') {
+      addClassTargetPin(target);
+      var pinIndex = target.getAttribute('data');
+      var adInfo = adsInfo[pinIndex];
+      window.card.drawCard(adInfo);
+    }
   });
 
-  var addClassTargetPin = function(pin) {
+  var addClassTargetPin = function (pin) {
     if (selectedPin) {
-    selectedPin.classList.remove('map__pin--active');
+      selectedPin.classList.remove('map__pin--active');
     }
     selectedPin = pin;
     selectedPin.classList.add('map__pin--active');
-  }
+  };
 
   window.pin = {
     drawPins: drawPins,
