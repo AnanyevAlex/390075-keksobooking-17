@@ -35,12 +35,15 @@
     }
   };
 
-  var addCardInfo = function (ad, template) {
+  var removeCardBlock = function() {
     var cardBlockEl = document.querySelector('.map__card');
     if (cardBlockEl) {
       cardBlockEl.remove();
     }
+  };
 
+  var addCardInfo = function (ad, template) {
+    removeCardBlock();
     var cardElement = template.cloneNode(true);
     var popupFeaturesEl = cardElement.querySelector('.popup__features');
     var popupPhotoEl = cardElement.querySelector('.popup__photos');
@@ -82,5 +85,6 @@
 
   window.card = {
     drawCard: drawCard,
+    removeCardBlock: removeCardBlock,
   };
 })();
