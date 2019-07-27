@@ -111,12 +111,10 @@
     window.debounce.debounce(function () {
       removePins();
       window.card.removeCardBlock();
-      window.updatePins();
+      updatePins();
     });
   });
 
-
-  // functions of selector filters
   var filterType = function (it) {
     return it.offer.type === housingType;
   };
@@ -140,7 +138,6 @@
     return housingGuests === it.offer.guests.toString();
   };
 
-  // universal function of filtering any feature
   var filterFeature = function (featureName) {
     var filterFunction = function (it) {
       return it.offer.features.indexOf(featureName) > -1;
@@ -155,9 +152,7 @@
   var filterElevator = filterFeature('elevator');
   var filterConditioner = filterFeature('conditioner');
 
-  /* UPDATE PINS */
-
-  window.updatePins = function () {
+  var updatePins = function () {
     var result = adsArr.filter(function (elem) {
       for (var i = 0; i < filters.length; i++) {
         if (filters[i](elem) === false) {
