@@ -26,7 +26,7 @@
       mapBlockEl.classList.remove('map--faded');
       window.data.loadData();
       window.form.initializationMap();
-      window.filter.filterPins();
+    /*  window.filter.filterPins();*/
     } else {
       if (cardEl) {
         cardEl.remove();
