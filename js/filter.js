@@ -2,12 +2,13 @@
 (function () {
   var MIN_PRICE = 10000;
   var MAX_PRICE = 50000;
-  var housingTypeEl = document.querySelector('#housing-type');
-  var housingPriceEl = document.querySelector('#housing-price');
-  var housingRoomEl = document.querySelector('#housing-rooms');
-  var housingGuestEl = document.querySelector('#housing-guests');
-  var featuresButtonsEl = document.querySelectorAll('input[name="features"]');
   var mapFiltersEl = document.querySelector('.map__filters');
+  var featureWifiEl = document.querySelector('#filter-wifi');
+  var featureDishwasherEl = document.querySelector('#filter-dishwasher');
+  var featureParkingEl = document.querySelector('#filter-parking');
+  var featureWasherEl = document.querySelector('#filter-washer');
+  var featureElevatorEl = document.querySelector('#filter-elevator');
+  var featureConditionerEl = document.querySelector('#filter-conditioner');
   // дефолтный фильтр
   var housingType = 'any';
   var housingPrice = 'any';
@@ -19,7 +20,6 @@
   var isWasher = false;
   var isElevator = false;
   var isConditioner = false;
-  var backupData;
   var filters = [];
 
 
@@ -36,8 +36,6 @@
       mapPinsEl.removeChild(it);
     });
   };
-
-
 
   var checkFeature = function (featureButton) {
     return featureButton.checked;
@@ -67,7 +65,6 @@
   // селекты
 
   mapFiltersEl.addEventListener('change', function (evt) {
-    debugger
     var target = evt.target;
     switch (target.dataset.filter) {
       case 'type':
@@ -87,27 +84,27 @@
         fillFilterArray(filterGuests, housingGuests);
         break;
       case 'wifi':
-        isWifi = checkFeature(featureWifi);
+        isWifi = checkFeature(featureWifiEl);
         fillFilterArray(filterWifi, isWifi);
         break;
       case 'dishwasher':
-        isDishwasher = checkFeature(featureDishwasher);
+        isDishwasher = checkFeature(featureDishwasherEl);
         fillFilterArray(filterDishwasher, isDishwasher);
         break;
       case 'parking':
-        isParking = checkFeature(featureParking);
+        isParking = checkFeature(featureParkingEl);
         fillFilterArray(filterParking, isParking);
         break;
       case 'washer':
-        isWasher = checkFeature(featureWasher);
+        isWasher = checkFeature(featureWasherEl);
         fillFilterArray(filterWasher, isWasher);
         break;
       case 'elevator':
-        isElevator = checkFeature(featureElevator);
+        isElevator = checkFeature(featureElevatorEl);
         fillFilterArray(filterElevator, isElevator);
         break;
       case 'conditioner':
-        isConditioner = checkFeature(featureConditioner);
+        isConditioner = checkFeature(featureConditionerEl);
         fillFilterArray(filterConditioner, isConditioner);
         break;
     }
@@ -160,17 +157,7 @@
 
   /* UPDATE PINS */
 
-  window.updatePins = function (data) {
-
-    // backup of data;
-    if (data) {
-      backupData = data;
-    }
-
-    /* !!!! In the fallowing function I didn't change the code,
-    because by meaning the cycle should not stop on the first
-    true/false, but only on false. */
-
+  window.updatePins = function () {
     var result = adsArr.filter(function (elem) {
       for (var i = 0; i < filters.length; i++) {
         if (filters[i](elem) === false) {
@@ -182,124 +169,7 @@
 
     window.pin.drawPins(result);
   };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  /*var filterPins = function () {
-    // фильтр тип жилья
-    housingTypeEl.addEventListener('change', function () {
-
-      removePins();
-      window.card.removeCardBlock();
-      if (housingTypeEl.value === 'any') {
-        window.pin.drawPins(adsArr);
-      }
-      var filteredAdsByType = adsArr.filter(function (it) {
-        return it.offer.type === housingTypeEl.value;
-      });
-      window.pin.drawPins(filteredAdsByType);
-    });
-
-    // фильтр по цене
-    housingPriceEl.addEventListener('change', function () {
-      removePins();
-      window.card.removeCardBlock();
-      if (housingPriceEl.value === 'any') {
-        window.pin.drawPins(adsArr);
-      }
-      var filteredAdsByPrice = adsArr.filter(function (it) {
-        switch (housingPriceEl.value) {
-          case 'middle':
-            return it.offer.price >= MIN_PRICE && it.offer.price < MAX_PRICE;
-          case 'low':
-            return it.offer.price < MIN_PRICE;
-          case 'high':
-            return it.offer.price > MAX_PRICE;
-        }
-      });
-      window.pin.drawPins(filteredAdsByPrice);
-    });
-
-    // фильтр количество комнат
-    housingRoomEl.addEventListener('change', function () {
-
-      removePins();
-      window.card.removeCardBlock();
-      if (housingRoomEl.value === 'any') {
-        window.pin.drawPins(adsArr);
-      }
-      var filteredAdsByRooms = adsArr.filter(function (it) {
-        return it.offer.rooms === Number(housingRoomEl.value);
-      });
-      window.pin.drawPins(filteredAdsByRooms);
-    });
-
-    // фильтр по гостям
-    housingGuestEl.addEventListener('change', function () {
-
-      removePins();
-      window.card.removeCardBlock();
-      if (housingGuestEl.value === 'any') {
-        window.pin.drawPins(adsArr);
-      }
-      var filteredAdsByGuest = adsArr.filter(function (it) {
-        return it.offer.guests === Number(housingGuestEl.value);
-      });
-      window.pin.drawPins(filteredAdsByGuest);
-    });
-
-    // фильтр по удобствам
-    featuresButtonsEl.forEach(function (it) {
-      it.addEventListener('change', function() {
-        removePins();
-        window.card.removeCardBlock();
-        var selectedFeaturesElChecked = document.querySelectorAll('input[name="features"]:checked');
-        var features = Array.from(selectedFeaturesElChecked);
-        var selectedFeaturesValues = features.map(function (it) {
-          return it.value;
-        });
-
-        if (selectedFeaturesValues.length === 0) {
-          window.pin.drawPins(adsArr);
-        }
-
-        var input = it;
-debugger
-console.log(selectedFeaturesValues)
-        if (input.checked) {
-          var filteredAdsByFeatures = adsArr.filter(function (it) {
-            var featuresInAd = it.offer.features;
-            for (var i = 0; i < selectedFeaturesValues.length; i++) {
-              if (featuresInAd.includes(input.value)) {
-                return it;
-              }
-            }
-            featuresInAd.includes(selectedFeaturesValues)
-          });
-          window.pin.drawPins(filteredAdsByFeatures);
-        } else {
-          window.pin.drawPins(adsArr);
-        }
-      });
-
-    });
-
-  };*/
-
   window.filter = {
-    /*filterPins: filterPins,*/
     setAdsArr: setAdsArr,
     removePins: removePins,
   };

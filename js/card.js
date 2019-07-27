@@ -35,7 +35,7 @@
     }
   };
 
-  var removeCardBlock = function() {
+  var removeCardBlock = function () {
     var cardBlockEl = document.querySelector('.map__card');
     if (cardBlockEl) {
       cardBlockEl.remove();
