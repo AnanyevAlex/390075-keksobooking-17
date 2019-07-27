@@ -7,6 +7,8 @@
   var MAP_MAIN_PIN_HEIGHT = 81;
   var mapBlockEl = document.querySelector('.map');
   var adFormEl = document.querySelector('.ad-form');
+  var adFormPhotoEl = adFormEl.querySelector('.ad-form__field');
+  var adFormPhotoDisplayEl = adFormEl.querySelector('.ad-form-header__preview > img');
   var initialInputsEl = adFormEl.querySelectorAll('input');
   var initialSelectsEl = adFormEl.querySelectorAll('select');
   var textareaEl = adFormEl.querySelector('textarea');
@@ -18,7 +20,6 @@
   var timeInEl = adFormEl.querySelector('#timein');
   var timeOutEl = adFormEl.querySelector('#timeout');
   var addressInputEl = adFormEl.querySelector('#address');
-  var cardEl = document.querySelector('.map__card');
 
   var activatePage = function (isActive) {
 
@@ -26,11 +27,17 @@
       mapBlockEl.classList.remove('map--faded');
       window.data.loadData();
       window.form.initializationMap();
-      window.filter.filterPins();
+
+      adFormPhotoEl.removeAttribute('disabled');
+      initialInputsEl.forEach(function (item) {
+        item.removeAttribute('disabled');
+      });
+      initialSelectsEl.forEach(function (index) {
+        index.removeAttribute('disabled');
+      });
+
     } else {
-      if (cardEl) {
-        cardEl.remove();
-      }
+      window.card.removeCardBlock();
       window.filter.removePins();
 
       mainMapPinEl.style.left = MAIN_PIN_DEFAULT_X + 'px';
@@ -38,6 +45,19 @@
 
       mapBlockEl.classList.add('map--faded');
       adFormEl.classList.add('ad-form--disabled');
+
+      adFormPhotoEl.disabled = true;
+      adFormPhotoDisplayEl.src = 'img/muffin-grey.svg';
+      var photosDivEl = adFormEl.querySelectorAll('.ad-form__photo');
+
+      photosDivEl.forEach(function (item) {
+        item.remove();
+      });
+
+      var photoBack = document.createElement('div');
+      photoBack.classList.add('ad-form__photo');
+      var photosContainerEl = document.querySelector('.ad-form__photo-container');
+      photosContainerEl.appendChild(photoBack);
 
       initialInputsEl.forEach(function (item) {
         item.disabled = true;
