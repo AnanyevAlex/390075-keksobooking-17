@@ -5,7 +5,7 @@
   var headerDropZoneEl = document.querySelector('.ad-form-header__drop-zone');
   var photosDropZoneEl = document.querySelector('.ad-form__drop-zone');
   var photosAddEl = document.querySelector('.ad-form__input');
-  var photosPreviewEl = document.querySelector('.ad-form__photo');
+
   var photosContainerEl = document.querySelector('.ad-form__photo-container');
   var FileTypes = ['gif', 'jpg', 'jpeg', 'png'];
 
@@ -17,6 +17,7 @@
   };
 
   var addPhoto = function (address) {
+    var photosPreviewEl = document.querySelector('.ad-form__photo');
     var propertyPhoto = document.createElement('img');
     propertyPhoto.src = address;
     propertyPhoto.width = '70';
@@ -38,7 +39,6 @@
       reader.addEventListener('load', function () {
         avatarPreviewEl.src = reader.result;
       });
-
       reader.readAsDataURL(file);
     }
   });

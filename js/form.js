@@ -19,13 +19,11 @@
   };
 
   var getMapFiltersEl = function () {
-    var mapFiltersEl = document.querySelector('.map__filters');
-    return mapFiltersEl;
+    return document.querySelector('.map__filters');
   };
 
   var getAdFieldsetEl = function () {
-    var adFormFieldsetEl = document.querySelectorAll('.ad-form__element');
-    return adFormFieldsetEl;
+    return document.querySelectorAll('.ad-form__element');
   };
 
   var disabledEl = function (element) {
@@ -77,13 +75,11 @@
   };
 
   var getTimeInEl = function () {
-    var timeInEl = document.querySelector('#timein');
-    return timeInEl;
+    return document.querySelector('#timein');
   };
 
   var getTimeOutEl = function () {
-    var timeOutEl = document.querySelector('#timeout');
-    return timeOutEl;
+    return document.querySelector('#timeout');
   };
 
   var addTimeChangeHandler = function (timeSelectField, relatedTimeSelectField) {
