@@ -79,7 +79,7 @@
       timeInEl.selectedIndex = '0';
       timeOutEl.selectedIndex = '0';
 
-      textareaEl.disabled = true;
+      window.form.disableForm();
       textareaEl.value = '';
 
       addressInputEl.value = Math.floor((MAIN_PIN_DEFAULT_X + MAP_MAIN_PIN_WIDTH / 2)) + ', ' + Math.floor((MAIN_PIN_DEFAULT_Y + MAP_MAIN_PIN_HEIGHT));
