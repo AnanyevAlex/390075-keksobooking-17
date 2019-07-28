@@ -146,5 +146,6 @@
   window.form = {
     initializationMap: initializationMap,
     disableMapFilters: disableMapFilters,
+    disableForm: disableForm,
   };
 })();
